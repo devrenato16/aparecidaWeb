@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-gray-800 bg-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-primary-800 leading-tight;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-6 py-3 rounded-md font-medium transition duration-300 focus:outline-none focus:ring-2 transform hover:-translate-y-0.5 inline-flex items-center justify-center;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-700 text-white hover:bg-primary-800 focus:ring-primary-500;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-primary-900 hover:bg-secondary-400 focus:ring-secondary-300;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-primary-700 text-primary-700 bg-transparent hover:bg-primary-700 hover:text-white focus:ring-primary-500;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-elevation-1 overflow-hidden hover:shadow-elevation-2 transition-shadow duration-300;
+  }
+  
+  .section {
+    @apply py-16 px-4 md:px-8;
+  }
+  
+  .container-custom {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  
+  .animated-underline {
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-secondary after:transition-all after:duration-300 hover:after:w-full;
+  }
+  
+  .header-shadow {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.leaflet-container {
+  height: 400px;
+  width: 100%;
+  border-radius: 0.5rem;
+}
