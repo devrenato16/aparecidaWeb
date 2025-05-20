@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import {
-  Mail,
   Phone,
   Clock,
   MapPin,
