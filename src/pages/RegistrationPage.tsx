@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import { BookOpen, Users, Award, Heart } from "lucide-react";
+import { BookOpen, Users, Award } from "lucide-react";
 import toast from "react-hot-toast";
 
 import Hero from "../components/Hero";
@@ -11,7 +11,9 @@ import Card from "../components/Card";
 import FormField from "../components/FormField";
 import { addRegistration } from "../firebase/firestore";
 
-type RegistrationType = "batismo" | "catecismo" | "crisma" | "casamento";
+import sacramentos from "../assets/sacramentos.webp";
+
+type RegistrationType = "batismo" | "catecismo" | "crisma";
 
 interface RegistrationFormData {
   name: string;
@@ -86,13 +88,6 @@ const RegistrationPage = () => {
       description:
         "Sacramento que confirma o Batismo e fortalece os dons do Espírito Santo.",
     },
-    {
-      id: "casamento",
-      title: "Casamento",
-      icon: <Heart className="h-8 w-8" />,
-      description:
-        "Sacramento que une homem e mulher em uma aliança indissolúvel perante Deus.",
-    },
   ];
 
   return (
@@ -101,27 +96,23 @@ const RegistrationPage = () => {
         <title>Inscrições | Paróquia Nossa Senhora Aparecida</title>
         <meta
           name="description"
-          content="Faça sua inscrição para Batismo, Catecismo, Crisma ou Casamento na Paróquia Nossa Senhora Aparecida."
+          content="Faça sua inscrição para Batismo, Catecismo, Crisma na Paróquia de Aparecida."
         />
       </Helmet>
 
       <Hero
         title="Inscrições Online"
-        subtitle="Faça sua pré-inscrição para os sacramentos e catequese"
-        backgroundImage="https://images.pexels.com/photos/14796863/pexels-photo-14796863.jpeg"
+        subtitle="Faça sua inscrição para os sacramentos e catequese"
+        backgroundImage={sacramentos}
       />
 
       <section className="section">
         <div className="container-custom">
           {!activeForm ? (
             <>
-              <SectionTitle
-                title="Escolha o Tipo de Inscrição"
-                subtitle="Selecione abaixo a opção de inscrição que deseja realizar"
-                center
-              />
+              <SectionTitle title="Escolha o Sacramento" center />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 mt-10 justify-center">
                 {formTypes.map((form, index) => (
                   <motion.div
                     key={form.id}
@@ -250,20 +241,6 @@ const RegistrationPage = () => {
                             placeholder="Nome completo dos padrinhos"
                           />
                         </>
-                      )}
-
-                      {activeForm === "casamento" && (
-                        <FormField
-                          label="Nome do(a) noivo(a)"
-                          name="partnerName"
-                          register={register}
-                          error={errors.partnerName}
-                          options={{
-                            required: "O nome do(a) noivo(a) é obrigatório",
-                          }}
-                          placeholder="Nome completo do(a) seu(sua) noivo(a)"
-                          className="md:col-span-2"
-                        />
                       )}
 
                       <FormField

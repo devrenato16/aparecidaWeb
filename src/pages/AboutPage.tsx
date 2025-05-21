@@ -4,6 +4,7 @@ import Hero from "../components/Hero";
 import SectionTitle from "../components/SectionTitle";
 
 import basilica from "../assets/basilica.webp";
+import altar from "../assets/altar.webp";
 
 const AboutPage = () => {
   return (
@@ -19,7 +20,7 @@ const AboutPage = () => {
       <Hero
         title="Sobre Nossa Paróquia"
         subtitle="Conheça um pouco mais sobre nossa história e missão"
-        backgroundImage={basilica}
+        backgroundImage={altar}
       />
 
       <section className="section">
