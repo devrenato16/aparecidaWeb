@@ -169,7 +169,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-primary-800 mt-12 pt-6 text-center">
+        <div className="border-t border-primary-600 mt-12 pt-6 text-center">
           <p className="text-gray-400 text-sm">
             © {currentYear} Paróquia Nossa Senhora Aparecida. Todos os direitos
             reservados.

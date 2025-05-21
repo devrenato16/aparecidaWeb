@@ -217,7 +217,11 @@ const HomePage = () => {
         <div className="container-custom relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <SectionTitle
-              title="Venha fazer parte da nossa comunidade"
+              title={
+                <p className="text-white/80">
+                  Venha fazer parte da nossa comunidade
+                </p>
+              }
               subtitle={
                 <p className="text-white/80">
                   Participe das nossas celebrações, grupos de oração e
