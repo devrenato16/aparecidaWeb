@@ -10,7 +10,7 @@ const Location = () => {
           <h1 className="text-4xl md:text-5xl font-serif text-center mb-6 text-aparecida-gold">
             Localização e Contato
           </h1>
-          <p className="text-xl max-w-3xl mx-auto text-center">
+          <p className="text-xl max-w-3xl mx-auto text-center text-secondary-500">
             Saiba como chegar à nossa paróquia e entre em contato conosco.
           </p>
         </div>
@@ -46,9 +46,10 @@ const Location = () => {
                   title="Endereço"
                   content={
                     <>
-                      Rua Nossa Senhora Aparecida, 123 - Centro
+                      R. Mariangela Lucena Peixoto, 49 - Conj. Valentina
+                      Figueredo I
                       <br />
-                      São Paulo, SP - CEP 01234-567
+                      João Pessoa - PB, 58063-300
                     </>
                   }
                 />
@@ -56,13 +57,13 @@ const Location = () => {
                 <ContactItem
                   icon={<Phone className="h-6 w-6 text-aparecida-gold" />}
                   title="Telefone"
-                  content={<>(11) 1234-5678</>}
+                  content={<>(83) 3237-8521</>}
                 />
 
                 <ContactItem
                   icon={<Mail className="h-6 w-6 text-aparecida-gold" />}
                   title="E-mail"
-                  content={<>contato@paroquiaaparecida.com.br</>}
+                  content={<>paroquianscaparecida.val@gmail.com</>}
                 />
 
                 <ContactItem
@@ -70,9 +71,9 @@ const Location = () => {
                   title="Horário de Funcionamento da Secretaria"
                   content={
                     <>
-                      Segunda a Sexta: 8h às 12h e 14h às 18h
+                      Segunda a Sexta: 14h30 às 20h00
                       <br />
-                      Sábado: 8h às 12h
+                      Sábado: 8h00 às 12h00
                     </>
                   }
                 />

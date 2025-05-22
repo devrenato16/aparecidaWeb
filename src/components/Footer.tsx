@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="bg-primary-900 text-white">
       <div className="border-t border-primary-600 pt-6 pb-6">
-        <div className="container-custom flex justify-between items-center">
+        <div className="container-custom flex flex-col sm:flex-row justify-between items-center text-center sm:text-left space-y-4 sm:space-y-0">
           {/* Social Links */}
           <div className="flex space-x-6">
             <a

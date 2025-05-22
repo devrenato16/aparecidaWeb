@@ -48,7 +48,7 @@ const Header = () => {
       <div className="container-custom flex justify-between items-center">
         <Link to="/" className="flex items-center" onClick={closeMenu}>
           <Logo className="h-10 w-auto" />
-          <span className="ml-3 font-serif text-white text-xl font-semibold">
+          <span className="ml-3 font-serif text-white text-base sm:text-lg md:text-xl font-semibold">
             Paróquia de Aparecida
           </span>
         </Link>
@@ -61,7 +61,7 @@ const Header = () => {
               to={item.path}
               className={`font-medium text-sm ${
                 location.pathname === item.path
-                  ? "text-secondary-200 font-semibold animated-underline after:w-full"
+                  ? "text-white font-semibold animated-underline after:w-full"
                   : "text-white animated-underline"
               }`}
             >
@@ -103,7 +103,7 @@ const Header = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-primary-800"
+          className="md:hidden text-secondary-200"
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
         >
