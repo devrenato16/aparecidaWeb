@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
-  Calendar,
-  Users,
-  Heart,
   MapPin,
-  BookOpen,
   ChevronRight,
+  PlusCircle,
+  HandHeart,
+  CalendarClock,
+  Flame,
 } from "lucide-react";
 
 import Hero from "../components/Hero";
@@ -15,6 +15,8 @@ import SectionTitle from "../components/SectionTitle";
 import Card from "../components/Card";
 
 import aparecida from "../assets/aparecida.webp";
+
+import { PiHandsPrayingBold } from "react-icons/pi";
 
 const HomePage = () => {
   return (
@@ -67,11 +69,7 @@ const HomePage = () => {
       {/* Services Section */}
       <section className="section bg-gray-50">
         <div className="container-custom">
-          <SectionTitle
-            title="Serviços Paroquiais"
-            subtitle="Conheça os serviços e atividades oferecidos pela nossa paróquia"
-            center
-          />
+          <SectionTitle title="Serviços Paroquiais" center />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <motion.div
@@ -80,7 +78,10 @@ const HomePage = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               viewport={{ once: true }}
             >
-              <Card title="Batismo" icon={<BookOpen className="h-8 w-8" />}>
+              <Card
+                title="Batismo"
+                icon={<PiHandsPrayingBold className="h-8 w-8" />}
+              >
                 <p className="text-gray-600 mb-4">
                   Preparação para o Sacramento do Batismo e informações sobre
                   agendamento.
@@ -101,7 +102,7 @@ const HomePage = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <Card title="Catequese" icon={<Users className="h-8 w-8" />}>
+              <Card title="Catequese" icon={<PlusCircle className="h-8 w-8" />}>
                 <p className="text-gray-600 mb-4">
                   Primeira Eucaristia, Crisma e formação contínua para todas as
                   idades.
@@ -122,10 +123,10 @@ const HomePage = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              <Card title="Matrimônio" icon={<Heart className="h-8 w-8" />}>
+              <Card title="Crisma" icon={<Flame className="h-8 w-8" />}>
                 <p className="text-gray-600 mb-4">
-                  Curso de noivos e informações sobre a celebração do Sacramento
-                  do Matrimônio.
+                  Preparação para o Sacramento da Crisma e informações sobre
+                  agendamento.
                 </p>
                 <Link
                   to="/inscricoes"
@@ -143,7 +144,7 @@ const HomePage = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <Card title="Dízimo" icon={<Heart className="h-8 w-8" />}>
+              <Card title="Dízimo" icon={<HandHeart className="h-8 w-8" />}>
                 <p className="text-gray-600 mb-4">
                   Contribua com a manutenção da paróquia e apoie nossas obras
                   sociais.
@@ -166,7 +167,7 @@ const HomePage = () => {
             >
               <Card
                 title="Horários de Missa"
-                icon={<Calendar className="h-8 w-8" />}
+                icon={<CalendarClock className="h-8 w-8" />}
               >
                 <p className="text-gray-600 mb-4">
                   Confira os horários das missas, confissões e atendimento
