@@ -1,14 +1,20 @@
 import jsPDF from 'jspdf';
+import { formatBirthDate } from './dateUtils';
 
 export const generatePDF = (registration: any, filename: string) => {
   const doc = new jsPDF('p', 'mm', 'a4');
 
   // Função auxiliar para formatar data
-  const formatDate = (date: Date | { seconds: number }) => {
-    if (!date) return 'Data inválida';
-    if (date instanceof Date) return date.toLocaleDateString('pt-BR');
-    return new Date(date.seconds * 1000).toLocaleDateString('pt-BR');
-  };
+ const formatDate = (date: Date | { seconds: number } | string) => {
+  if (!date) return 'Data inválida';
+  if (typeof date === 'string') {
+    const d = new Date(date);
+    return isNaN(d.getTime()) ? 'Data inválida' : d.toLocaleDateString('pt-BR');
+  }
+  if (date instanceof Date) return date.toLocaleDateString('pt-BR');
+  return new Date(date.seconds * 1000).toLocaleDateString('pt-BR');
+};
+
 
   // Mapeia schooling para exibição mais legível
   const schoolingMap: Record<string, string> = {
@@ -49,7 +55,7 @@ export const generatePDF = (registration: any, filename: string) => {
 
   addField("Nome completo:", registration.name || "Não informado");
   addField("Telefone:", registration.phone || "Não informado");
-  addField("Data de Nascimento:", registration.birthdate || "Não informado");
+  addField("Data de Nascimento:", formatBirthDate(registration.birthdate) || "Não informado");
   addField("Naturalidade:", registration.birthplace || "Não informado");
   addField("Endereço:", registration.address || "Não informado");
   addField("Nome do Pai:", registration.fatherName || "Não informado");

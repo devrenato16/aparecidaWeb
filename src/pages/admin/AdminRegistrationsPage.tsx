@@ -11,7 +11,7 @@ import {
   FormData,
 } from "../../firebase/firestore";
 import { generatePDF } from "../../utils/gereneratePDF";
-import { formatDate } from "../../utils/dateUtils";
+import { formatBirthDate, formatDate } from "../../utils/dateUtils";
 
 const AdminRegistrationsPage = () => {
   const navigate = useNavigate();
@@ -300,7 +300,7 @@ const AdminRegistrationsPage = () => {
                     Data de Nascimento
                   </h4>
                   <p className="text-primary-800 text-sm">
-                    {formatDate(selectedRegistration.birthdate)}
+                    {formatBirthDate(selectedRegistration.birthdate)}
                   </p>
                 </div>
                 <div className="md:col-span-2">

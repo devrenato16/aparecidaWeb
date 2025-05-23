@@ -17,4 +17,21 @@ export const formatDate = (date: any): string => {
   }
 
   return 'Formato inválido';
+  
 };
+
+// utils/date.ts (ou no topo do seu arquivo do modal)
+export function formatBirthDate(dateString: string): string {
+  if (!dateString) return 'Data inválida';
+
+  const parts = dateString.split('-');
+  if (parts.length !== 3) return 'Data inválida';
+
+  const year = Number(parts[0]);
+  const month = Number(parts[1]) - 1;
+  const day = Number(parts[2]);
+
+  const date = new Date(year, month, day);
+
+  return date.toLocaleDateString('pt-BR');
+}
