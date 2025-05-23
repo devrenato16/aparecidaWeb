@@ -1,5 +1,10 @@
-import { ReactNode } from 'react';
-import { Path, UseFormRegister, RegisterOptions, FieldError } from 'react-hook-form';
+import { ReactNode } from "react";
+import {
+  Path,
+  UseFormRegister,
+  RegisterOptions,
+  FieldError,
+} from "react-hook-form";
 
 interface FormFieldProps<TFormValues> {
   label: string;
@@ -13,26 +18,26 @@ interface FormFieldProps<TFormValues> {
   className?: string;
 }
 
-function FormField<TFormValues>({ 
-  label, 
-  name, 
-  register, 
-  error, 
-  type = 'text', 
-  placeholder = '', 
-  options = {}, 
+function FormField<TFormValues>({
+  label,
+  name,
+  register,
+  error,
+  type = "text",
+  placeholder = "",
+  options = {},
   children,
-  className = ''
+  className = "",
 }: FormFieldProps<TFormValues>) {
   return (
-    <div className={`mb-4 ${className}`}>
-      <label 
-        htmlFor={name} 
+    <div className={`mb-1 ${className}`}>
+      <label
+        htmlFor={name}
         className="block text-sm font-medium text-gray-700 mb-1"
       >
         {label}
       </label>
-      
+
       {children ? (
         children
       ) : (
@@ -40,16 +45,14 @@ function FormField<TFormValues>({
           id={name}
           type={type}
           placeholder={placeholder}
-          className={`input-field ${error ? 'border-red-500 focus:ring-red-500' : ''}`}
+          className={`input-field ${
+            error ? "border-red-500 focus:ring-red-500" : ""
+          }`}
           {...register(name, options)}
         />
       )}
-      
-      {error && (
-        <p className="mt-1 text-sm text-red-600">
-          {error.message}
-        </p>
-      )}
+
+      {error && <p className="mt-1 text-sm text-red-600">{error.message}</p>}
     </div>
   );
 }

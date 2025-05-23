@@ -2,18 +2,24 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import { BookOpen, Users, Award } from "lucide-react";
+import { PlusCircle, Flame } from "lucide-react";
 import toast from "react-hot-toast";
 
 import Hero from "../components/Hero";
 import SectionTitle from "../components/SectionTitle";
 import Card from "../components/Card";
-import FormField from "../components/FormField";
+
 import { addRegistration } from "../firebase/firestore";
 
 import sacramentos from "../assets/sacramentos.webp";
+import { PiHandsPrayingBold } from "react-icons/pi";
+import BatismoForm from "../components/BatsimoForm";
+import CrismaForm from "../components/CrismaForm";
 
-type RegistrationType = "batismo" | "catecismo" | "crisma";
+import { CatequeseForm } from "../components/CatequeseForm";
+import { CrismaAdultoForm } from "../components/CrismaAdultoForm";
+
+type RegistrationType = "batismo" | "catecismo" | "crisma" | "crismaAdulto";
 
 interface RegistrationFormData {
   name: string;
@@ -36,6 +42,7 @@ const RegistrationPage = () => {
   const {
     register,
     handleSubmit,
+    control,
     reset,
     formState: { errors },
   } = useForm<RegistrationFormData>();
@@ -70,23 +77,30 @@ const RegistrationPage = () => {
     {
       id: "batismo",
       title: "Batismo",
-      icon: <BookOpen className="h-8 w-8" />,
+      icon: <PiHandsPrayingBold className="h-8 w-8" />,
       description:
         "Sacramento de iniciação cristã, pelo qual nos tornamos filhos de Deus.",
     },
     {
       id: "catecismo",
       title: "Catecismo",
-      icon: <Users className="h-8 w-8" />,
+      icon: <PlusCircle className="h-8 w-8" />,
       description:
         "Preparação para a Primeira Eucaristia, destinada a crianças a partir de 9 anos.",
     },
     {
       id: "crisma",
       title: "Crisma",
-      icon: <Award className="h-8 w-8" />,
+      icon: <Flame className="h-8 w-8" />,
       description:
         "Sacramento que confirma o Batismo e fortalece os dons do Espírito Santo.",
+    },
+    {
+      id: "crismaAdulto",
+      title: "Crisma Adulto",
+      icon: <Flame className="h-8 w-8" />,
+      description:
+        "Para adultos que ainda não receberam o Sacramento da Crisma.",
     },
   ];
 
@@ -162,100 +176,25 @@ const RegistrationPage = () => {
                     className="bg-white p-8 rounded-lg shadow-elevation-2"
                   >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <FormField
-                        label="Nome completo"
-                        name="name"
-                        register={register}
-                        error={errors.name}
-                        options={{ required: "O nome é obrigatório" }}
-                        placeholder="Digite seu nome completo"
-                      />
-
-                      <FormField
-                        label="E-mail"
-                        name="email"
-                        type="email"
-                        register={register}
-                        error={errors.email}
-                        options={{
-                          required: "O e-mail é obrigatório",
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "E-mail inválido",
-                          },
-                        }}
-                        placeholder="seu@email.com"
-                      />
-
-                      <FormField
-                        label="Telefone"
-                        name="phone"
-                        register={register}
-                        error={errors.phone}
-                        options={{ required: "O telefone é obrigatório" }}
-                        placeholder="(00) 00000-0000"
-                      />
-
-                      <FormField
-                        label="Data de Nascimento"
-                        name="birthdate"
-                        type="date"
-                        register={register}
-                        error={errors.birthdate}
-                        options={{
-                          required: "A data de nascimento é obrigatória",
-                        }}
-                      />
-
-                      <FormField
-                        label="Endereço"
-                        name="address"
-                        register={register}
-                        error={errors.address}
-                        options={{ required: "O endereço é obrigatório" }}
-                        placeholder="Rua, número, bairro, cidade, CEP"
-                        className="md:col-span-2"
-                      />
-
                       {activeForm === "batismo" && (
-                        <>
-                          <FormField
-                            label="Nome dos pais"
-                            name="parentName"
-                            register={register}
-                            error={errors.parentName}
-                            options={{
-                              required: "O nome dos pais é obrigatório",
-                            }}
-                            placeholder="Nome completo dos pais"
-                          />
-
-                          <FormField
-                            label="Nome dos padrinhos"
-                            name="godparentName"
-                            register={register}
-                            error={errors.godparentName}
-                            options={{
-                              required: "O nome dos padrinhos é obrigatório",
-                            }}
-                            placeholder="Nome completo dos padrinhos"
-                          />
-                        </>
+                        <CatequeseForm register={register} errors={errors} />
                       )}
 
-                      <FormField
-                        label="Observações (opcional)"
-                        name="notes"
-                        register={register}
-                        className="md:col-span-2"
-                      >
-                        <textarea
-                          id="notes"
-                          className="input-field h-32 resize-none"
-                          placeholder="Informações adicionais relevantes para sua inscrição"
-                          {...register("notes")}
+                      {activeForm === "catecismo" && (
+                        <BatismoForm register={register} errors={errors} />
+                      )}
+
+                      {activeForm === "crisma" && (
+                        <CrismaForm register={register} errors={errors} />
+                      )}
+
+                      {activeForm === "crismaAdulto" && (
+                        <CrismaAdultoForm
+                          register={register}
+                          control={control}
+                          errors={errors}
                         />
-                      </FormField>
+                      )}
                     </div>
 
                     <div className="flex flex-wrap justify-between mt-8 gap-4">
