@@ -12,7 +12,7 @@ interface SectionTitleProps {
 const SectionTitle = ({
   title,
   subtitle,
-  center = false,
+  center = true,
   className = "",
   lineColor = "secondary",
 }: SectionTitleProps) => {
@@ -29,7 +29,7 @@ const SectionTitle = ({
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="text-3xl md:text-4xl font-serif font-bold mb-3"
+        className="text-3xl md:text-4xl font-serif font-bold"
       >
         {title}
       </motion.h2>
@@ -39,7 +39,9 @@ const SectionTitle = ({
         whileInView={{ width: center ? 80 : 100 }}
         transition={{ duration: 0.5, delay: 0.2 }}
         viewport={{ once: true }}
-        className={`h-1 ${lineColorClass} rounded ${center ? "mx-auto" : ""}`}
+        className={`h-1 ${lineColorClass} rounded mt-3 ${
+          center ? "mx-auto" : ""
+        }`}
       />
 
       {subtitle && (
@@ -48,7 +50,7 @@ const SectionTitle = ({
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           viewport={{ once: true }}
-          className="mt-4 text-gray-600 max-w-3xl"
+          className={`mt-6 text-gray-600 max-w-3xl ${center ? "mx-auto" : ""}`}
         >
           {subtitle}
         </motion.div>
