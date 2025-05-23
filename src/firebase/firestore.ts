@@ -19,9 +19,24 @@ export interface FormData extends DocumentData {
   name: string;
   email: string;
   phone: string;
-  formType: 'batismo' | 'catecismo' | 'crisma' | 'casamento';
+  formType: 'batismo' | 'catecismo' | 'crisma' | 'crismaAdulto';
   createdAt: Timestamp | Date;
   [key: string]: any;
+
+  birthdate: string;
+  birthplace: string;
+  address: string;
+  fatherName: string;
+  motherName: string;
+  community: string;
+  schooling: string;
+  groupParticipation: string;
+  isBaptized: "sim" | "nao";
+  firstEucharist: "sim" | "nao";
+  specialNeeds: string;
+  maritalStatus: "casado" | "moraJunto" | "solteiro";
+  availableTime: string;
+  jesusAnswer: string;
 }
 
 // Add a new registration
