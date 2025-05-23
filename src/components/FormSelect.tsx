@@ -28,7 +28,7 @@ export const FormSelect = ({
         {...register(name)}
         className="w-full p-2 border border-gray-300 rounded"
       >
-        <option value="">Selecione um horário</option>
+        <option value="">Selecione</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

@@ -98,8 +98,8 @@ const AdminRegistrationsPage = () => {
           <div className="bg-white rounded-lg shadow-elevation-1 overflow-hidden">
             <div className="p-4 bg-gray-50 border-b border-gray-200 flex flex-wrap justify-between items-center gap-4">
               <div className="flex items-center gap-2">
-                <Filter className="h-5 w-5 text-gray-500" />
-                <span className="text-sm font-medium text-gray-600">
+                <Filter className="h-5 w-5 text-primary-800" />
+                <span className="text-sm font-semibold text-gray-600">
                   Filtrar por:
                 </span>
                 <div className="flex gap-2">
@@ -163,29 +163,29 @@ const AdminRegistrationsPage = () => {
               </div>
             ) : registrations.length === 0 ? (
               <div className="text-center p-12">
-                <p className="text-gray-500">Nenhuma inscrição encontrada</p>
+                <p className="text-primary-800">Nenhuma inscrição encontrada</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
                         Nome
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
                         E-mail
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
                         Telefone
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
                         Tipo
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
                         Data
                       </th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-right text-xs font-semibold text-primary-800 uppercase tracking-wider">
                         Ações
                       </th>
                     </tr>
@@ -194,17 +194,17 @@ const AdminRegistrationsPage = () => {
                     {registrations.map((registration) => (
                       <tr key={registration.id} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm font-semibold text-gray-900">
                             {registration.name}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-primary-800">
                             {registration.email}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-primary-800">
                             {registration.phone}
                           </div>
                         </td>
@@ -214,10 +214,10 @@ const AdminRegistrationsPage = () => {
                               registration.formType}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-primary-800">
                           {formatDate(registration.createdAt)}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-semibold">
                           <button
                             onClick={() =>
                               setSelectedRegistration(registration)
@@ -247,7 +247,7 @@ const AdminRegistrationsPage = () => {
 
       {/* Modal Detalhes da Inscrição */}
       {selectedRegistration && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-primary-800 bg-opacity-50 z-50 flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -259,7 +259,7 @@ const AdminRegistrationsPage = () => {
                 <h3 className="text-xl font-serif text-primary-800 font-semibold">
                   Detalhes da Inscrição
                 </h3>
-                <p className="text-gray-500 text-sm">
+                <p className="text-primary-800 text-sm">
                   {formTypeLabels[selectedRegistration.formType] ||
                     selectedRegistration.formType}{" "}
                   - {formatDate(selectedRegistration.createdAt)}
@@ -276,33 +276,35 @@ const AdminRegistrationsPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Campos Básicos */}
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Nome
                   </h4>
                   <p className="text-gray-800">{selectedRegistration.name}</p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     E-mail
                   </h4>
-                  <p className="text-gray-800">{selectedRegistration.email}</p>
+                  <p className="text-gray-800">
+                    {selectedRegistration.email || "Não informado"}
+                  </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Telefone
                   </h4>
                   <p className="text-gray-800">{selectedRegistration.phone}</p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Data de Nascimento
                   </h4>
-                  <p className="text-gray-800">
-                    {selectedRegistration.birthdate}
+                  <p className="text-primary-800 text-sm">
+                    {formatDate(selectedRegistration.birthdate)}
                   </p>
                 </div>
                 <div className="md:col-span-2">
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Endereço
                   </h4>
                   <p className="text-gray-800">
@@ -312,7 +314,7 @@ const AdminRegistrationsPage = () => {
 
                 {/* Campos Específicos do Crisma Adulto */}
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Nome do Pai
                   </h4>
                   <p className="text-gray-800">
@@ -320,7 +322,7 @@ const AdminRegistrationsPage = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Nome da Mãe
                   </h4>
                   <p className="text-gray-800">
@@ -328,7 +330,7 @@ const AdminRegistrationsPage = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Comunidade
                   </h4>
                   <p className="text-gray-800">
@@ -336,7 +338,7 @@ const AdminRegistrationsPage = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Escolaridade
                   </h4>
                   <p className="text-gray-800">
@@ -344,7 +346,7 @@ const AdminRegistrationsPage = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Participa de algum grupo?
                   </h4>
                   <p className="text-gray-800">
@@ -352,7 +354,7 @@ const AdminRegistrationsPage = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     É Batizado?
                   </h4>
                   <p className="text-gray-800">
@@ -364,7 +366,7 @@ const AdminRegistrationsPage = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Fez a Primeira Eucaristia?
                   </h4>
                   <p className="text-gray-800">
@@ -376,7 +378,7 @@ const AdminRegistrationsPage = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Possui alguma necessidade especial?
                   </h4>
                   <p className="text-gray-800">
@@ -384,7 +386,7 @@ const AdminRegistrationsPage = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Estado Civil
                   </h4>
                   <p className="text-gray-800">
@@ -392,7 +394,7 @@ const AdminRegistrationsPage = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Horário Disponível
                   </h4>
                   <p className="text-gray-800">
@@ -400,7 +402,7 @@ const AdminRegistrationsPage = () => {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Quem é Jesus para você?
                   </h4>
                   <p className="text-gray-800">

@@ -98,20 +98,20 @@ export const CrismaAdultoForm = ({
         error={errors.schooling}
         options={[
           {
-            value: "fundamental_incompleto",
+            value: "Fundamental Incompleto",
             label: "Ensino Fundamental Incompleto",
           },
           {
-            value: "fundamental_completo",
+            value: "Fundamental Completo",
             label: "Ensino Fundamental Completo",
           },
-          { value: "medio_incompleto", label: "Ensino Médio Incompleto" },
-          { value: "medio_completo", label: "Ensino Médio Completo" },
-          { value: "superior_incompleto", label: "Ensino Superior Incompleto" },
-          { value: "superior_completo", label: "Ensino Superior Completo" },
-          { value: "pos_graduacao", label: "Pós-graduação" },
-          { value: "mestrado", label: "Mestrado" },
-          { value: "doutorado", label: "Doutorado" },
+          { value: "Médio Incompleto", label: "Ensino Médio Incompleto" },
+          { value: "Médio Completo", label: "Ensino Médio Completo" },
+          { value: "Superior Incompleto", label: "Ensino Superior Incompleto" },
+          { value: "Superior Completo", label: "Ensino Superior Completo" },
+          { value: "Pós Graduacao", label: "Pós-graduação" },
+          { value: "Mestrado", label: "Mestrado" },
+          { value: "Doutorado", label: "Doutorado" },
         ]}
       />
 
@@ -206,7 +206,9 @@ export const CrismaAdultoForm = ({
         name="availableTime"
         register={register}
         error={errors.availableTime}
-        options={[{ value: "sexta_19h30", label: "Sexta-feira, 19h30 - 21h" }]}
+        options={[
+          { value: "Sexta-feira - 19h30", label: "Sexta-feira, 19h30 - 21h00" },
+        ]}
         className="md:col-span-2"
       />
 
