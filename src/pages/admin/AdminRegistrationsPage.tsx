@@ -89,10 +89,14 @@ const AdminRegistrationsPage = () => {
               <ArrowLeft className="h-5 w-5 mr-1" />
               <span>Voltar</span>
             </button>
+          </div>
+          <div>
+            {" "}
             <SectionTitle
               title="Gerenciar Inscrições"
               subtitle="Visualize ou exclua as inscrições recebidas"
               className="mb-0"
+              center
             />
           </div>
           <div className="bg-white rounded-lg shadow-elevation-1 overflow-hidden">
