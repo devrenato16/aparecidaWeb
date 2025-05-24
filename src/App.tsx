@@ -68,7 +68,7 @@ function App() {
       <Footer />
 
       <Toaster
-        position="top-right"
+        position="top-center"
         toastOptions={{
           duration: 5000,
           style: {
