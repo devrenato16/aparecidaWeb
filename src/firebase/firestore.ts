@@ -19,7 +19,7 @@ export interface FormData extends DocumentData {
   name: string;
   email: string;
   phone: string;
-  formType: 'batismo' | 'catecismo' | 'crisma' | 'crismaAdulto';
+  formType: 'batismo' | 'catecismo' | 'crismaJovem' | 'crismaAdulto';
   createdAt: Timestamp | Date;
   [key: string]: any;
 

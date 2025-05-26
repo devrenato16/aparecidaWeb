@@ -61,7 +61,7 @@ const AdminRegistrationsPage = () => {
   const formTypeLabels = {
     batismo: "Batismo",
     catecismo: "Catecismo",
-    crisma: "Crisma",
+    crisma: "Crisma Jovem",
     crismaAdulto: "Crisma Adulto",
   };
 
@@ -145,7 +145,7 @@ const AdminRegistrationsPage = () => {
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                     }`}
                   >
-                    Crisma
+                    Crisma Jovem
                   </button>
                   <button
                     onClick={() => setActiveFilter("crismaAdulto")}

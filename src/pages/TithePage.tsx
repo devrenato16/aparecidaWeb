@@ -12,6 +12,7 @@ import Hero from "../components/Hero";
 import SectionTitle from "../components/SectionTitle";
 import Card from "../components/Card";
 
+import logo from "../assets/logoBB.svg";
 import hands from "../assets/hands.webp";
 
 const TithePage = () => {
@@ -176,12 +177,12 @@ const TithePage = () => {
 
                 <div className="bg-gray-50 p-4 rounded-md">
                   <p className="text-sm text-gray-500 mb-1">Agência</p>
-                  <p className="text-gray-800 font-medium">1234-5</p>
+                  <p className="text-gray-800 font-medium">3501-7</p>
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-md">
                   <p className="text-sm text-gray-500 mb-1">Conta</p>
-                  <p className="text-gray-800 font-medium">12345-6</p>
+                  <p className="text-gray-800 font-medium">42883-3</p>
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-md">
@@ -191,11 +192,11 @@ const TithePage = () => {
                       id="pix-key"
                       className="text-gray-800 font-medium truncate flex-1"
                     >
-                      00.000.000/0000-00
+                      09.140.351/0089-04
                     </p>
                     <button
                       onClick={() => {
-                        const pixKey = "00.000.000/0000-00";
+                        const pixKey = "09.140.351/0089-04";
                         navigator.clipboard.writeText(pixKey).then(() => {
                           toast.success(
                             "Chave PIX copiada! Cole no app do seu banco."
@@ -255,7 +256,7 @@ const TithePage = () => {
                     Envelope de Dízimo
                   </p>
                   <p className="text-gray-600">
-                    Envelopes disponíveis na secretaria e durante as missas.
+                    Envelopes disponíveis na secretaria e no balção do dízimo.
                     Você pode depositá-los na caixinha do dízimo.
                   </p>
                 </div>
@@ -264,9 +265,7 @@ const TithePage = () => {
                   <p className="text-sm text-gray-500 mb-1">
                     Secretaria Paroquial
                   </p>
-                  <p className="text-gray-600">
-                    Segunda a sexta, das 8h às 12h e das 14h às 18h
-                  </p>
+                  <p className="text-gray-600">Terça a sexta, 14h às 18h</p>
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-md">

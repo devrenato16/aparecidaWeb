@@ -14,12 +14,16 @@ import { addRegistration } from "../firebase/firestore";
 import sacramentos from "../assets/sacramentos.webp";
 import { PiHandsPrayingBold } from "react-icons/pi";
 import BatismoForm from "../components/BatsimoForm";
-import CrismaForm from "../components/CrismaForm";
+import { CrismaJovemForm } from "../components/CrismaForm";
 
 import { CatequeseForm } from "../components/CatequeseForm";
 import { CrismaAdultoForm } from "../components/CrismaAdultoForm";
 
-type RegistrationType = "batismo" | "catecismo" | "crisma" | "crismaAdulto";
+type RegistrationType =
+  | "batismo"
+  | "catecismo"
+  | "crismaJovem"
+  | "crismaAdulto";
 
 interface RegistrationFormData {
   name: string;
@@ -89,8 +93,8 @@ const RegistrationPage = () => {
         "Preparação para a Primeira Eucaristia, destinada a crianças a partir de 9 anos.",
     },
     {
-      id: "crisma",
-      title: "Crisma",
+      id: "crismaJovem",
+      title: "Crisma Jovem",
       icon: <Flame className="h-8 w-8" />,
       description:
         "Sacramento que confirma o Batismo e fortalece os dons do Espírito Santo.",
@@ -177,15 +181,27 @@ const RegistrationPage = () => {
                   >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {activeForm === "batismo" && (
-                        <CatequeseForm register={register} errors={errors} />
+                        <CatequeseForm
+                          register={register}
+                          control={control}
+                          errors={errors}
+                        />
                       )}
 
                       {activeForm === "catecismo" && (
-                        <BatismoForm register={register} errors={errors} />
+                        <BatismoForm
+                          register={register}
+                          contro={control}
+                          errors={errors}
+                        />
                       )}
 
-                      {activeForm === "crisma" && (
-                        <CrismaForm register={register} errors={errors} />
+                      {activeForm === "crismaJovem" && (
+                        <CrismaJovemForm
+                          register={register}
+                          control={control}
+                          errors={errors}
+                        />
                       )}
 
                       {activeForm === "crismaAdulto" && (

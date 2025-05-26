@@ -17,11 +17,18 @@ import { PiHandsPrayingBold } from "react-icons/pi";
 
 const AdminDashboardPage = () => {
   const { logout } = useAuth();
-  const [stats, setStats] = useState({
+
+  type Stats = {
+    batismo: number;
+    catecismo: number;
+    crismaJovem: number;
+    crismaAdulto: number;
+  };
+  const [stats, setStats] = useState<Stats>({
     batismo: 0,
     catecismo: 0,
-    crisma: 0,
-    casamento: 0,
+    crismaJovem: 0,
+    crismaAdulto: 0,
   });
 
   const [loading, setLoading] = useState(true);
@@ -34,8 +41,8 @@ const AdminDashboardPage = () => {
         const newStats = {
           batismo: 0,
           catecismo: 0,
-          crisma: 0,
-          casamento: 0,
+          crismaJovem: 0,
+          crismaAdulto: 0,
         };
 
         registrations.forEach((reg) => {
@@ -131,7 +138,7 @@ const AdminDashboardPage = () => {
                     <div>
                       <p className="text-sm text-gray-500">Crisma</p>
                       <h3 className="text-2xl font-semibold text-gray-800">
-                        {stats.crisma}
+                        {stats.crismaJovem}
                       </h3>
                     </div>
                   </div>
@@ -145,7 +152,7 @@ const AdminDashboardPage = () => {
                     <div>
                       <p className="text-sm text-gray-500">Crisma Adulto</p>
                       <h3 className="text-2xl font-semibold text-gray-800">
-                        {stats.casamento}
+                        {stats.crismaAdulto}
                       </h3>
                     </div>
                   </div>
