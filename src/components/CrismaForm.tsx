@@ -4,48 +4,19 @@ import { format } from "date-fns";
 import FormField from "./FormField";
 import { FormSelect } from "./FormSelect";
 
-import { getAddressByCep } from "../utils/getAddressByCep";
-import { useEffect } from "react";
-
 type CrismaJovemFormProps = {
   register: any;
   control: any;
   errors: any;
-  setValue: (name: string, value: any) => void;
 };
 
 export const CrismaJovemForm = ({
   register,
   errors,
   control,
-  setValue,
 }: CrismaJovemFormProps) => {
   const fullName = useWatch({ name: "name", control });
   const currentDate = format(new Date(), "dd/MM/yyyy");
-
-  const cep = useWatch({ name: "cep", control });
-
-  useEffect(() => {
-    const fetchAddress = async () => {
-      const cleanCep = cep?.replace(/\D/g, ""); // Remove caracteres não numéricos
-
-      if (cleanCep && cleanCep.length === 8) {
-        try {
-          const address = await getAddressByCep(cleanCep);
-          if (address && !address.erro) {
-            setValue(
-              "address",
-              `${address.logradouro}, ${address.bairro}, ${address.localidade} - ${address.uf}`
-            );
-          }
-        } catch (error) {
-          console.error("Erro ao buscar endereço:", error);
-        }
-      }
-    };
-
-    fetchAddress();
-  }, [cep, setValue]);
 
   return (
     <>
@@ -66,7 +37,6 @@ export const CrismaJovemForm = ({
         error={errors.phone}
         options={{ required: "O telefone é obrigatório" }}
         placeholder="(00) 00000-0000"
-        mask="(99) 99999-9999"
       />
 
       <FormField
@@ -84,16 +54,6 @@ export const CrismaJovemForm = ({
         register={register}
         error={errors.birthplace}
         options={{ required: "Este campo é obrigatório" }}
-      />
-
-      <FormField
-        label="CEP:"
-        name="cep"
-        register={register}
-        error={errors.cep}
-        options={{ required: "O CEP é obrigatório." }}
-        placeholder="00000-000"
-        mask="99999-999"
       />
 
       <FormField
