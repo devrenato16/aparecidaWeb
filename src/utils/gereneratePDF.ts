@@ -42,7 +42,7 @@ export const generatePDF = (registration: any, filename: string) => {
   const timeMap: Record<string, string> = {
     sab_9h30: "Sábado, 9h30 - 11h00",
     sab_11h30: "Sábado, 11h30 - 13h00",
-    sab_10h00: "Sábado, 10h00 - 16h30",
+    sab_15h00: "Sábado, 15h00 - 16h30",
   };
 
   // Cabeçalho
@@ -63,63 +63,73 @@ export const generatePDF = (registration: any, filename: string) => {
   doc.setFontSize(12);
   doc.setFont("helvetica", "bold");
   doc.text("Dados Pessoais", margin, y);
-  y += 7;
+  y += 10;
 
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
 
   const addField = (label: string, value: string) => {
     doc.setFont("helvetica", "bold");
-    doc.text(`${label}:`, margin, y);
+    doc.text(`${label}:`, margin, y); // Formato simples com um único :
     doc.setFont("helvetica", "normal");
     doc.text(value, margin + 50, y); // Ajuste a posição horizontal
     y += 7;
   };
 
-  addField("Nome completo:", registration.name || "Não informado");
-  addField("Telefone:", registration.phone || "Não informado");
-  addField("Data de Nascimento:", formatBirthDate(registration.birthdate) || "Não informado");
-  addField("Naturalidade:", registration.birthplace || "Não informado");
-  addField("Endereço:", registration.address || "Não informado");
-  addField("Nome do Pai:", registration.fatherName || "Não informado");
-  addField("Nome da Mãe:", registration.motherName || "Não informado");
-  addField("Comunidade:", registration.community || "Não informado");
+  addField("Nome completo", registration.name || "Não informado");
+  addField("Telefone", registration.phone || "Não informado");
+  addField("Data de Nascimento", formatBirthDate(registration.birthdate) || "Não informado");
+  addField("Naturalidade", registration.birthplace || "Não informado");
+  addField("Endereço", registration.address || "Não informado");
+  addField("Nome do Pai", registration.fatherName || "Não informado");
+  addField("Nome da Mãe", registration.motherName || "Não informado");
+  addField("Comunidade", registration.community || "Não informado");
   addField(
-    "Escolaridade:",
+    "Escolaridade",
     schoolingMap[registration.schooling] || "Não informado"
   );
   addField(
-    "Participa de algum grupo?:",
+    "Participa de algum grupo?",
     registration.groupParticipation || "Não informado"
   );
   addField(
-    "É Batizado?:",
+    "É Batizado?",
     registration.isBaptized === "sim" ? "Sim" : "Não"
   );
   addField(
-    "Fez a Primeira Eucaristia?:",
+    "Fez a Primeira Eucaristia?",
     registration.firstEucharist === "sim" ? "Sim" : "Não"
   );
+
+  // Campo "Possui necessidade especial?"
+  const specialNeedsValue = registration.specialNeeds || "Não informado";
+  const splitSpecialNeeds = doc.splitTextToSize(specialNeedsValue, 170); // Quebra automática
+  doc.setFont("helvetica", "bold");
+  doc.text("Possui necessidade especial?:", margin, y);
+  doc.setFont("helvetica", "normal");
+  splitSpecialNeeds.forEach((line, index) => {
+    doc.text(line, margin + 50, y + index * 7); // Adiciona linha por linha
+  });
+  y += 7 * splitSpecialNeeds.length; // Ajusta y com base no número de linhas
+
   addField(
-    "Possui necessidade especial?:",
-    registration.specialNeeds || "Não informado"
-  );
-  addField(
-    "Estado Civil:",
+    "Estado Civil",
     maritalStatusMap[registration.maritalStatus] || "Não informado"
   );
   addField(
-    "Horário disponível:",
+    "Horário disponível",
     timeMap[registration.availableTime] || "Não informado"
   );
-  addField("Quem é Jesus para você?:", registration.jesusAnswer || "Não informado");
+  addField("Quem é Jesus para você?", registration.jesusAnswer || "Não informado");
+
+  // Espaço maior entre seções
+  y += 15;
 
   // Termo de Compromisso
-  y += 10; // Espaço maior entre seções
   doc.setFontSize(12);
   doc.setFont("helvetica", "bold");
   doc.text("Termo de Compromisso", margin, y);
-  y += 7;
+  y += 10;
 
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
@@ -134,9 +144,11 @@ export const generatePDF = (registration: any, filename: string) => {
     y += 7;
   });
 
+  // Espaço maior entre seções
+  y += 15;
+
   // Data da Inscrição
-  y += 10; // Espaço maior entre seções
-  addField("Data da Inscrição:", formatDate(registration.createdAt));
+  addField("Data da Inscrição", formatDate(registration.createdAt));
 
   // Rodapé
   y = 280;
