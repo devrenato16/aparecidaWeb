@@ -11,7 +11,6 @@ import AboutPage from "./pages/AboutPage";
 import MassSchedulePage from "./pages/MassSchedulePage";
 import RegistrationPage from "./pages/RegistrationPage";
 import TithePage from "./pages/TithePage";
-import LocationPage from "./pages/LocationPage";
 import LoginPage from "./pages/LoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -39,7 +38,6 @@ function App() {
           <Route path="/horarios" element={<MassSchedulePage />} />
           <Route path="/inscricoes" element={<RegistrationPage />} />
           <Route path="/dizimo" element={<TithePage />} />
-          <Route path="/localizacao" element={<LocationPage />} />
           <Route path="/login" element={<LoginPage />} />
 
           {/* Protected Admin Routes */}

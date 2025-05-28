@@ -5,12 +5,14 @@ import {
   RegisterOptions,
   FieldError,
 } from "react-hook-form";
+import InputMask from "react-input-mask";
 
 interface FormFieldProps<TFormValues> {
   label: string;
   name: Path<TFormValues>;
   register: UseFormRegister<TFormValues>;
   error?: FieldError;
+  mask?: string;
   type?: string;
   placeholder?: string;
   options?: RegisterOptions;
@@ -23,6 +25,7 @@ function FormField<TFormValues>({
   name,
   register,
   error,
+  mask,
   type = "text",
   placeholder = "",
   options = {},
@@ -40,6 +43,20 @@ function FormField<TFormValues>({
 
       {children ? (
         children
+      ) : mask ? (
+        <InputMask mask={mask} {...register(name, options)}>
+          {(inputProps: any) => (
+            <input
+              {...inputProps}
+              id={name}
+              type={type}
+              placeholder={placeholder}
+              className={`input-field ${
+                error ? "border-red-500 focus:ring-red-500" : ""
+              }`}
+            />
+          )}
+        </InputMask>
       ) : (
         <input
           id={name}
