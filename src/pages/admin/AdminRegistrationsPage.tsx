@@ -13,6 +13,8 @@ import {
   FormData,
 } from "../../firebase/firestore";
 import { generatePDF } from "../../utils/gereneratePDF";
+import { generateCatequesePDF } from "../../utils/generateCatequesePDF";
+
 import { formatBirthDate, formatDate } from "../../utils/dateUtils";
 
 const AdminRegistrationsPage = () => {
@@ -447,18 +449,37 @@ const AdminRegistrationsPage = () => {
                 Fechar
               </button>
               <button
-                onClick={() =>
-                  generatePDF(
-                    selectedRegistration!,
-                    `Cadastro_${selectedRegistration!.name}_${
-                      new Date().toISOString().split("T")[0]
-                    }.pdf`
-                  )
-                }
+                onClick={() => {
+                  if (!selectedRegistration) return;
+
+                  const filename = `Cadastro_${selectedRegistration.name}_${
+                    new Date().toISOString().split("T")[0]
+                  }.pdf`;
+
+                  switch (selectedRegistration.formType) {
+                    case "catecismo":
+                      generateCatequesePDF(selectedRegistration, filename);
+                      break;
+                    case "crismaJovem":
+                      generatePDF(selectedRegistration, filename);
+                      break;
+                    case "crismaAdulto":
+                      generatePDF(selectedRegistration, filename);
+                      break;
+                    case "batismo":
+                      generatePDF(selectedRegistration, filename);
+                      break;
+                    default:
+                      alert(
+                        "Tipo de formulário não suportado para geração de PDF."
+                      );
+                  }
+                }}
                 className="btn bg-green-600 text-white hover:bg-green-700 focus:ring-green-500"
               >
                 Baixar PDF
               </button>
+
               <button
                 onClick={() =>
                   handleDeleteRegistration(selectedRegistration!.id!)

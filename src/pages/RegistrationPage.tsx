@@ -181,7 +181,7 @@ const RegistrationPage = () => {
                   >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {activeForm === "batismo" && (
-                        <CatequeseForm
+                        <BatismoForm
                           register={register}
                           control={control}
                           errors={errors}
@@ -189,9 +189,9 @@ const RegistrationPage = () => {
                       )}
 
                       {activeForm === "catecismo" && (
-                        <BatismoForm
+                        <CatequeseForm
                           register={register}
-                          contro={control}
+                          control={control}
                           errors={errors}
                         />
                       )}
