@@ -108,7 +108,7 @@ export const generatePDF = (registration: any, filename: string) => {
   doc.text("Possui necessidade especial?:", margin, y);
   doc.setFont("helvetica", "normal");
   splitSpecialNeeds.forEach((line, index) => {
-    doc.text(line, margin + 50, y + index * 7); // Adiciona linha por linha
+    doc.text(line, margin + 52, y + index * 7); // Adiciona linha por linha
   });
   y += 7 * splitSpecialNeeds.length; // Ajusta y com base no número de linhas
 
