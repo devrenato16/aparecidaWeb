@@ -162,9 +162,9 @@ const AdminRegistrationsPage = () => {
                     Catecismo
                   </button>
                   <button
-                    onClick={() => setActiveFilter("crisma")}
+                    onClick={() => setActiveFilter("crismaJovem")}
                     className={`px-3 py-1 text-sm rounded-md ${
-                      activeFilter === "crisma"
+                      activeFilter === "crismaJovem"
                         ? "bg-primary-700 text-white"
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                     }`}
