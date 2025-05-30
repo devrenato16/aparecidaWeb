@@ -67,7 +67,7 @@ const AboutPage = () => {
               className="rounded-lg overflow-hidden shadow-elevation-2"
             >
               <img
-                src="https://images.pexels.com/photos/161060/church-catholic-religious-christianity-161060.jpeg"
+                src={altar}
                 alt="História da Paróquia"
                 className="w-full h-full object-cover"
               />
