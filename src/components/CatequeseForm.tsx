@@ -27,7 +27,7 @@ export const CatequeseForm = ({
         error={errors.name}
         options={{ required: "O nome é obrigatório" }}
         placeholder="Digite seu nome completo"
-        className="md:col-span-2"
+        className="md:col-span-2 w-full"
       />
       <FormField
         label="Data de Nascimento:"
@@ -142,9 +142,9 @@ export const CatequeseForm = ({
           { value: "sab_9h30", label: "Matriz de Aparecida, 7h30 - 9h00" },
           { value: "sab_11h30", label: "Matriz de Aparecida, 9h30 - 11h00" },
           { value: "sab_ 15h00", label: "Matriz de Aparecida, 13h00 - 15h00" },
-          { value: "sab_9h30", label: "Capela São Sebastião, 8h00 - 10h00" },
+          { value: "sab_8h00", label: "Capela São Sebastião, 8h00 - 10h00" },
           {
-            value: "sab_11h30",
+            value: "sab_16h00",
             label: "Capela São Pedro e São Paulo, 16h00 - 18h00",
           },
         ]}
