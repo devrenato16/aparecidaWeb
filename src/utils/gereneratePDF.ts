@@ -144,11 +144,14 @@ export const generatePDF = (registration: any, filename: string) => {
     y += 7;
   });
 
-  // Espaço maior entre seções
-  y += 15;
 
   // Data da Inscrição
-  addField("Data da Inscrição", formatDate(registration.createdAt));
+  y += 5;
+  const today = new Date().toLocaleDateString('pt-BR');
+  doc.setFont("helvetica", "bold");
+  doc.text("Danta da Incrição:", pageWidth - margin - 50, y);
+  doc.setFont("helvetica", "normal");
+  doc.text(today, pageWidth - margin, y, {align:"right"});
 
   // Rodapé
   y = 280;

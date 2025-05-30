@@ -60,7 +60,6 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
   addField("Endereço", formData.address || "Não informado");
   addField("Comunidade", formData.community || "Não informado");
   addField("Série Escolar", formData.schooling || "Não informado");
-  addField("Fez Primeira Eucaristia?", formData.firstEucharist === "sim" ? "Sim" : "Não");
 
   // Necessidades especiais
   const specialNeedsValue = formData.specialNeeds === "sim" ? "Sim" : "Não";
@@ -89,7 +88,7 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
 
-  const termoText = `Eu, ${formData.termName || "______"}, a observar e motivar a participação do meu filho(a) nos ENCONTROS DE FORMAÇÕES DA CATEQUESE, NECESSÁRIOS PARA O MESMO(A) RECEBER O SACRAMENTO DA PRIMEIRA EUCARISTIA, e estou consciente que faltando a esses COMPROMISSOS, NÃO poderá receber o SACRAMENTO.`;
+  const termoText = `Eu, ${formData.motherName || "______"}, a observar e motivar a participação do meu filho(a) nos ENCONTROS DE FORMAÇÕES DA CATEQUESE, NECESSÁRIOS PARA O MESMO(A) RECEBER O SACRAMENTO DA PRIMEIRA EUCARISTIA, e estou consciente que faltando a esses COMPROMISSOS, NÃO poderá receber o SACRAMENTO.`;
 
   const splitText = doc.splitTextToSize(termoText, 170);
   splitText.forEach((line) => {
@@ -98,9 +97,12 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
   });
 
   // Data da inscrição
-  y += 10;
-  const today = new Date();
-  addField("Data da Inscrição", today.toLocaleDateString('pt-BR'));
+  y += 15;
+  const today = new Date().toLocaleDateString('pt-BR');
+  doc.setFont("helvetica", "bold");
+  doc.text("Danta da Incrição:", pageWidth - margin - 50, y);
+  doc.setFont("helvetica", "normal");
+  doc.text(today, pageWidth - margin, y, {align:"right"});
 
   // Rodapé
   y = 280;
