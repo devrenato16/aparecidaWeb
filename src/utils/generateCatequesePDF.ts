@@ -26,7 +26,7 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
     doc.setFont("helvetica", "bold");
     doc.text(`${label}:`, margin, y);
     doc.setFont("helvetica", "normal");
-    doc.text(value, margin + 50, y);
+    doc.text(value, margin + 51, y);
     y += 7;
   };
 
@@ -60,17 +60,16 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
   addField("Endereço", formData.address || "Não informado");
   addField("Comunidade", formData.community || "Não informado");
   addField("Série Escolar", formData.schooling || "Não informado");
-  addField("Batizado?", formData.isBaptized === "sim" ? "Sim" : "Não");
   addField("Fez Primeira Eucaristia?", formData.firstEucharist === "sim" ? "Sim" : "Não");
 
   // Necessidades especiais
-  const specialNeedsValue = formData.specialNeeds || "Não informado";
+  const specialNeedsValue = formData.specialNeeds === "sim" ? "Sim" : "Não";
   const splitSpecialNeeds = doc.splitTextToSize(specialNeedsValue, 170);
   doc.setFont("helvetica", "bold");
   doc.text("Possui necessidade especial:", margin, y);
   doc.setFont("helvetica", "normal");
   splitSpecialNeeds.forEach((line, index) => {
-    doc.text(line, margin + 60, y + index * 7);
+    doc.text(line, margin + 51, y + index * 7);
   });
   y += 7 * splitSpecialNeeds.length;
 

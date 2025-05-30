@@ -109,19 +109,17 @@ export const CatequeseForm = ({
 
       <FormField
         label="Possui necessidade especial ?"
-        name="firstEucharist"
+        name="specialNeeds"
         register={register}
         error={errors.firstEucharist}
         options={{ required: "Campo obrigatório" }}
       >
         <div className="flex gap-4">
           <label>
-            <input type="radio" value="sim" {...register("firstEucharist")} />{" "}
-            Sim
+            <input type="radio" value="sim" {...register("specialNeeds")} /> Sim
           </label>
           <label>
-            <input type="radio" value="nao" {...register("firstEucharist")} />{" "}
-            Não
+            <input type="radio" value="nao" {...register("specialNeeds")} /> Não
           </label>
         </div>
       </FormField>

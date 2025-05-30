@@ -143,25 +143,6 @@ export const CrismaAdultoForm = ({
       </FormField>
 
       <FormField
-        label="Fez a Primeira Eucaristia?"
-        name="firstEucharist"
-        register={register}
-        error={errors.firstEucharist}
-        options={{ required: "Campo obrigatório" }}
-      >
-        <div className="flex gap-4">
-          <label>
-            <input type="radio" value="sim" {...register("firstEucharist")} />{" "}
-            Sim
-          </label>
-          <label>
-            <input type="radio" value="nao" {...register("firstEucharist")} />{" "}
-            Não
-          </label>
-        </div>
-      </FormField>
-
-      <FormField
         label="Possui alguma necessidade especial?"
         name="specialNeeds"
         register={register}
