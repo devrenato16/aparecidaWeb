@@ -15,7 +15,7 @@ export const CatequeseForm = ({
   errors,
   control,
 }: CatequeseFormProps) => {
-  const fullName = useWatch({ name: "name", control });
+  const motherName = useWatch({ name: "motherName", control });
   const currentDate = format(new Date(), "dd/MM/yyyy");
 
   return (
@@ -29,16 +29,6 @@ export const CatequeseForm = ({
         placeholder="Digite seu nome completo"
         className="md:col-span-2"
       />
-
-      <FormField
-        label="Telefone:"
-        name="phone"
-        register={register}
-        error={errors.phone}
-        options={{ required: "O telefone é obrigatório" }}
-        placeholder="(00) 00000-0000"
-      />
-
       <FormField
         label="Data de Nascimento:"
         name="birthdate"
@@ -47,22 +37,13 @@ export const CatequeseForm = ({
         error={errors.birthdate}
         options={{ required: "A data de nascimento é obrigatória" }}
       />
-
       <FormField
-        label="Naturalidade:"
-        name="birthplace"
+        label="Telefone do Responsável:"
+        name="phone"
         register={register}
-        error={errors.birthplace}
-        options={{ required: "Este campo é obrigatório" }}
-      />
-
-      <FormField
-        label="Endereço:"
-        name="address"
-        register={register}
-        error={errors.address}
-        options={{ required: "O endereço é obrigatório" }}
-        placeholder="Rua, número, bairro, cidade, CEP"
+        error={errors.phone}
+        options={{ required: "O telefone é obrigatório" }}
+        placeholder="(00) 00000-0000"
       />
 
       <FormField
@@ -82,6 +63,15 @@ export const CatequeseForm = ({
         options={{ required: "Este campo é obrigatório" }}
         className="md:col-span-2"
       />
+      <FormField
+        label="Endereço:"
+        name="address"
+        register={register}
+        error={errors.address}
+        options={{ required: "O endereço é obrigatório" }}
+        placeholder="Rua, número, bairro, cidade."
+        className="md: col-span-2"
+      />
 
       <FormField
         label="Comunidade:"
@@ -91,42 +81,17 @@ export const CatequeseForm = ({
         options={{ required: "Este campo é obrigatório" }}
       />
 
-      <FormSelect
-        label="Escolaridade"
+      <FormField
+        label="Série Escolar:"
         name="schooling"
         register={register}
         error={errors.schooling}
-        options={[
-          {
-            value: "Fundamental Incompleto",
-            label: "Ensino Fundamental Incompleto",
-          },
-          {
-            value: "Fundamental Completo",
-            label: "Ensino Fundamental Completo",
-          },
-          { value: "Médio Incompleto", label: "Ensino Médio Incompleto" },
-          { value: "Médio Completo", label: "Ensino Médio Completo" },
-          { value: "Superior Incompleto", label: "Ensino Superior Incompleto" },
-          { value: "Superior Completo", label: "Ensino Superior Completo" },
-          { value: "Pós Graduacao", label: "Pós-graduação" },
-          { value: "Mestrado", label: "Mestrado" },
-          { value: "Doutorado", label: "Doutorado" },
-        ]}
+        options={{ required: "Este campo é obrigatório" }}
       />
 
       {/* Questões com radio buttons */}
       <FormField
-        label="Você participa de algum grupo ? "
-        name="groupParticipation"
-        register={register}
-        error={errors.groupParticipation}
-        placeholder="Qual?"
-        className="md:col-span-2"
-      />
-
-      <FormField
-        label="É Batizado? :"
+        label="A Criança é batizada ?"
         name="isBaptized"
         register={register}
         error={errors.isBaptized}
@@ -143,26 +108,24 @@ export const CatequeseForm = ({
       </FormField>
 
       <FormField
-        label="Fez a Primeira Eucaristia?"
-        name="firstEucharist"
+        label="Possui necessidade especial ?"
+        name="specialNeeds"
         register={register}
         error={errors.firstEucharist}
         options={{ required: "Campo obrigatório" }}
       >
         <div className="flex gap-4">
           <label>
-            <input type="radio" value="sim" {...register("firstEucharist")} />{" "}
-            Sim
+            <input type="radio" value="sim" {...register("specialNeeds")} /> Sim
           </label>
           <label>
-            <input type="radio" value="nao" {...register("firstEucharist")} />{" "}
-            Não
+            <input type="radio" value="nao" {...register("specialNeeds")} /> Não
           </label>
         </div>
       </FormField>
 
       <FormField
-        label="Possui alguma necessidade especial?"
+        label="Se sim, qual ?"
         name="specialNeeds"
         register={register}
         error={errors.specialNeeds}
@@ -170,56 +133,24 @@ export const CatequeseForm = ({
         className="md:col-span-2"
       />
 
-      <FormField
-        label="É casado(a) ou convive maritalmente com alguém?"
-        name="maritalStatus"
-        register={register}
-        error={errors.maritalStatus}
-        options={{ required: "Campo obrigatório" }}
-      >
-        <div className="flex gap-4 flex-wrap">
-          <label>
-            <input type="radio" value="casado" {...register("maritalStatus")} />{" "}
-            Casado(a)
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="moraJunto"
-              {...register("maritalStatus")}
-            />{" "}
-            Mora junto
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="solteiro"
-              {...register("maritalStatus")}
-            />{" "}
-            Não sou
-          </label>
-        </div>
-      </FormField>
-
       <FormSelect
-        label="Qual horário você poderá participar?"
+        label="Qual horário a criança poderá participar?"
         name="availableTime"
         register={register}
         error={errors.availableTime}
         options={[
-          { value: "Sexta-feira - 19h30", label: "Sexta-feira, 19h30 - 21h00" },
+          { value: "sab_9h30", label: "Matriz de Aparecida, 7h30 - 9h00" },
+          { value: "sab_11h30", label: "Matriz de Aparecida, 9h30 - 11h00" },
+          { value: "sab_ 15h00", label: "Matriz de Aparecida, 13h00 - 15h00" },
+          { value: "sab_9h30", label: "Capela São Sebastião, 8h00 - 10h00" },
+          {
+            value: "sab_11h30",
+            label: "Capela São Pedro e São Paulo, 16h00 - 18h00",
+          },
         ]}
         className="md:col-span-2"
       />
 
-      <FormField
-        label="Quem é Jesus para você?"
-        name="jesusAnswer"
-        register={register}
-        error={errors.jesusAnswer}
-        placeholder="Sua resposta"
-        className="md:col-span-2"
-      />
       {/* Termo de Compromisso */}
       <div className="mb-4 md:col-span-2">
         <h3 className="text-lg font-bold text-center mb-6">
@@ -231,14 +162,14 @@ export const CatequeseForm = ({
             <input
               type="text"
               {...register("termName", {})}
-              value={fullName || ""}
+              value={motherName || ""}
               className="p-1 w-full max-w-lg"
             />
           </span>
-          comprometo-me a participar dos ENCONTROS DE FORMAÇÕES NECESSÁRIOS PARA
-          RECEBER O SACRAMENTO DA CRISMA E PARTICIPAR DA MISSA DOMINICAL e estou
-          consciente que faltando a esses COMPROMISSOS, NÃO poderei ser
-          crismado(a)!
+          a observar e motivar a participação do meu filho (a) nos ENCONTROS DE
+          FORMAÇÕES DA CATEQUESE, NECESSÁRIOS PARA O MESMO(A) RECEBER O
+          SACRAMENTO DA PRIMEIRA EUCARISTIA, e estou consciente que faltando a
+          esses COMPROMISSOS, NÃO poderá receber o SACRAMENTO.
         </p>
         {errors.termName && (
           <p className="text-red-500 text-sm mt-1">{errors.termName.message}</p>

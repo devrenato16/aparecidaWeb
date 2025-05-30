@@ -5,6 +5,7 @@ import SectionTitle from "../components/SectionTitle";
 
 import basilica from "../assets/basilica.webp";
 import altar from "../assets/altar.webp";
+import Location from "../components/LocationSection";
 
 const AboutPage = () => {
   return (
@@ -185,6 +186,19 @@ const AboutPage = () => {
             </motion.div>
           </div>
         </div>
+      </section>
+      <section className="section bg-primary-700 w-full">
+        <div className="w-full max-w-6xl mx-auto">
+          <div className="container mx-auto px-6">
+            <h1 className="text-4xl md:text-5xl font-serif text-center mb-6 text-white">
+              Localização e Contato
+            </h1>
+            <p className="text-xl max-w-3xl mx-auto text-center text-secondary-500">
+              Saiba como chegar à nossa paróquia e entre em contato conosco.
+            </p>
+          </div>
+        </div>
+        <Location />
       </section>
     </>
   );

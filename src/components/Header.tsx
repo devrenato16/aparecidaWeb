@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { currentUser, isAdmin, logout } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -25,18 +24,12 @@ const Header = () => {
 
   const closeMenu = () => setIsOpen(false);
 
-  const handleLogout = async () => {
-    await logout();
-    closeMenu();
-  };
-
   const navItems = [
     { label: "Início", path: "/" },
     { label: "Sobre", path: "/sobre" },
     { label: "Horários", path: "/horarios" },
     { label: "Inscrições", path: "/inscricoes" },
     { label: "Dízimo", path: "/dizimo" },
-    { label: "Localização", path: "/localizacao" },
   ];
 
   return (
@@ -68,42 +61,11 @@ const Header = () => {
               {item.label}
             </Link>
           ))}
-          {isAdmin && (
-            <div className="relative group">
-              <button className="flex items-center font-medium text-sm text-white">
-                Admin <ChevronDown className="ml-1 h-4 w-4" />
-              </button>
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-elevation-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                <Link
-                  to="/admin"
-                  className="block px-4 py-2 text-sm text-primary-700 hover:bg-primary-50"
-                  onClick={closeMenu}
-                >
-                  Dashboard
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                >
-                  Sair
-                </button>
-              </div>
-            </div>
-          )}
-          {!currentUser && (
-            <Link
-              to="/login"
-              className="btn btn-primary text-sm py-2"
-              onClick={closeMenu}
-            >
-              Área Restrita
-            </Link>
-          )}
         </nav>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-secondary-200"
+          className="md:hidden text-white absolute right-6 top-1/2 transform -translate-y-1/2 z-[100]"
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
         >
@@ -112,52 +74,48 @@ const Header = () => {
       </div>
 
       {/* Mobile Navigation */}
-      {isOpen && (
-        <div className="md:hidden fixed inset-0 z-50 bg-white pt-20 px-6 overflow-y-auto">
-          <nav className="flex flex-col space-y-6 py-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`text-lg font-medium ${
-                  location.pathname === item.path
-                    ? "text-secondar"
-                    : "text-primary-800"
-                }`}
-                onClick={closeMenu}
-              >
-                {item.label}
-              </Link>
-            ))}
-            {isAdmin && (
-              <>
-                <Link
-                  to="/admin"
-                  className="text-lg font-medium text-primary-800"
-                  onClick={closeMenu}
-                >
-                  Admin Dashboard
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="text-lg font-medium text-red-600 text-left"
-                >
-                  Sair
-                </button>
-              </>
-            )}
-            {!currentUser && (
-              <Link
-                to="/login"
-                className="btn btn-primary w-full"
-                onClick={closeMenu}
-              >
-                Área Restrita
-              </Link>
-            )}
-          </nav>
-        </div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Overlay escuro */}
+
+            <motion.div
+              key="mobile-menu"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-40"
+              onClick={() => setIsOpen(false)}
+            />
+
+            {/* Menu Mobile - Slide da Direita */}
+            <motion.div
+              initial={{ x: "100%" }} // Começa fora da tela à direita
+              animate={{ x: 0 }} // Vai para posição normal
+              exit={{ x: "100%" }} // Sai indo para a direita
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="fixed top-0 right-0 h-full w-full max-w-xs z-50 bg-primary-900 pt-20 px-6 overflow-y-auto shadow-xl"
+            >
+              <div className="flex flex-col space-y-6 py-8">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`text-lg font-medium ${
+                      location.pathname === item.path
+                        ? "text-white font-semibold"
+                        : "text-white/80"
+                    }`}
+                    onClick={closeMenu}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

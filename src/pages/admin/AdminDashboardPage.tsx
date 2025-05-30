@@ -136,7 +136,7 @@ const AdminDashboardPage = () => {
                       <Flame className="h-6 w-6 text-yellow-500" />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Crisma</p>
+                      <p className="text-sm text-gray-500">Crisma Jovem</p>
                       <h3 className="text-2xl font-semibold text-gray-800">
                         {stats.crismaJovem}
                       </h3>

@@ -240,7 +240,7 @@ const HomePage = () => {
                 Horários de Missas
               </Link>
               <Link
-                to="/localizacao"
+                to="/sobre"
                 className="btn border-2 border-white bg-transparent text-white hover:bg-white hover:text-primary-700"
               >
                 Como Chegar

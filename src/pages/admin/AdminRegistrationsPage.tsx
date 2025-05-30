@@ -1,3 +1,5 @@
+// AdminRegistrationsPage.tsx
+
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +13,8 @@ import {
   FormData,
 } from "../../firebase/firestore";
 import { generatePDF } from "../../utils/gereneratePDF";
+import { generateCatequesePDF } from "../../utils/generateCatequesePDF";
+
 import { formatBirthDate, formatDate } from "../../utils/dateUtils";
 
 const AdminRegistrationsPage = () => {
@@ -58,6 +62,33 @@ const AdminRegistrationsPage = () => {
     }
   };
 
+  // Funções de formatação dos dados
+  const formatMaritalStatus = (status: string): string => {
+    switch (status) {
+      case "casado":
+        return "Casado(a)";
+      case "moraJunto":
+        return "Mora junto";
+      case "solteiro":
+        return "Não sou casado(a)";
+      default:
+        return status || "Não informado";
+    }
+  };
+
+  const formatAvailableTime = (time: string): string => {
+    const options = {
+      sab_9h30: "Sábado, 9h30 - 11h00",
+      sab_11h30: "Sábado, 11h30 - 13h00",
+      sab_15h00: "Sábado, 15h00 - 16h30",
+    };
+    return options[time as keyof typeof options] || time || "Não informado";
+  };
+
+  const formatDateOfBirth = (date: string): string => {
+    return formatBirthDate(date) || "Não informado";
+  };
+
   const formTypeLabels = {
     batismo: "Batismo",
     catecismo: "Catecismo",
@@ -72,10 +103,7 @@ const AdminRegistrationsPage = () => {
       </Helmet>
 
       {/* Template oculto para PDF */}
-      <div
-        id="pdf-template"
-        className="hidden p-6 max-w-md bg-white border border-gray-200 rounded"
-      >
+      <div id="pdf-template" className="hidden">
         <div id="pdf-content"></div>
       </div>
 
@@ -90,15 +118,13 @@ const AdminRegistrationsPage = () => {
               <span>Voltar</span>
             </button>
           </div>
-          <div>
-            {" "}
-            <SectionTitle
-              title="Gerenciar Inscrições"
-              subtitle="Visualize ou exclua as inscrições recebidas"
-              className="mb-0"
-              center
-            />
-          </div>
+          <SectionTitle
+            title="Gerenciar Inscrições"
+            subtitle="Visualize ou exclua as inscrições recebidas"
+            className="mb-0"
+            center
+          />
+
           <div className="bg-white rounded-lg shadow-elevation-1 overflow-hidden">
             <div className="p-4 bg-gray-50 border-b border-gray-200 flex flex-wrap justify-between items-center gap-4">
               <div className="flex items-center gap-2">
@@ -138,9 +164,9 @@ const AdminRegistrationsPage = () => {
                     Catecismo
                   </button>
                   <button
-                    onClick={() => setActiveFilter("crisma")}
+                    onClick={() => setActiveFilter("crismaJovem")}
                     className={`px-3 py-1 text-sm rounded-md ${
-                      activeFilter === "crisma"
+                      activeFilter === "crismaJovem"
                         ? "bg-primary-700 text-white"
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                     }`}
@@ -251,7 +277,7 @@ const AdminRegistrationsPage = () => {
 
       {/* Modal Detalhes da Inscrição */}
       {selectedRegistration && (
-        <div className="fixed inset-0 bg-primary-800 bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -304,7 +330,7 @@ const AdminRegistrationsPage = () => {
                     Data de Nascimento
                   </h4>
                   <p className="text-primary-800 text-sm">
-                    {formatBirthDate(selectedRegistration.birthdate)}
+                    {formatDateOfBirth(selectedRegistration.birthdate)}
                   </p>
                 </div>
                 <div className="md:col-span-2">
@@ -394,7 +420,7 @@ const AdminRegistrationsPage = () => {
                     Estado Civil
                   </h4>
                   <p className="text-gray-800">
-                    {selectedRegistration.maritalStatus || "Não informado"}
+                    {formatMaritalStatus(selectedRegistration.maritalStatus)}
                   </p>
                 </div>
                 <div>
@@ -402,7 +428,7 @@ const AdminRegistrationsPage = () => {
                     Horário Disponível
                   </h4>
                   <p className="text-gray-800">
-                    {selectedRegistration.availableTime || "Não informado"}
+                    {formatAvailableTime(selectedRegistration.availableTime)}
                   </p>
                 </div>
                 <div>
@@ -422,20 +448,38 @@ const AdminRegistrationsPage = () => {
               >
                 Fechar
               </button>
-
               <button
-                onClick={() =>
-                  generatePDF(
-                    selectedRegistration!,
-                    `Cadastro_${selectedRegistration!.name}_${
-                      new Date().toISOString().split("T")[0]
-                    }.pdf`
-                  )
-                }
+                onClick={() => {
+                  if (!selectedRegistration) return;
+
+                  const filename = `Cadastro_${selectedRegistration.name}_${
+                    new Date().toISOString().split("T")[0]
+                  }.pdf`;
+
+                  switch (selectedRegistration.formType) {
+                    case "catecismo":
+                      generateCatequesePDF(selectedRegistration, filename);
+                      break;
+                    case "crismaJovem":
+                      generatePDF(selectedRegistration, filename);
+                      break;
+                    case "crismaAdulto":
+                      generatePDF(selectedRegistration, filename);
+                      break;
+                    case "batismo":
+                      generatePDF(selectedRegistration, filename);
+                      break;
+                    default:
+                      alert(
+                        "Tipo de formulário não suportado para geração de PDF."
+                      );
+                  }
+                }}
                 className="btn bg-green-600 text-white hover:bg-green-700 focus:ring-green-500"
               >
                 Baixar PDF
               </button>
+
               <button
                 onClick={() =>
                   handleDeleteRegistration(selectedRegistration!.id!)

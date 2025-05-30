@@ -207,9 +207,9 @@ export const CrismaJovemForm = ({
         register={register}
         error={errors.availableTime}
         options={[
-          { value: "Sábado - 9h30", label: "Sábado, 9h30 - 11h00" },
-          { value: "Sábado - 19h30", label: "Sábado, 11h00 - 13h00" },
-          { value: "Sábado - 19h30", label: "Sábado, 15h00 - 16h30" },
+          { value: "sab_9h30", label: "Sábado, 9h30 - 11h00" },
+          { value: "sab_11h30", label: "Sábado, 11h30 - 13h00" },
+          { value: "sab_ 15h00", label: "Sábado, 15h00 - 16h30" },
         ]}
         className="md:col-span-2"
       />
