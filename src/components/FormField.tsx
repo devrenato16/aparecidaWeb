@@ -43,17 +43,26 @@ function FormField<TFormValues>({
 
       {children ? (
         children
+      ) : type === "textarea" ? (
+        <textarea
+          id={name}
+          {...register(name, options)}
+          placeholder={placeholder}
+          className={`border border-gray-300 rounded-md p-2 w-full resize-none ${
+            error ? "border-red-500 focus:ring-red-500" : ""
+          } ${className}`}
+        />
       ) : mask ? (
         <InputMask mask={mask} {...register(name, options)}>
-          {(inputProps: any) => (
+          {(inputPropsMasked: any) => (
             <input
-              {...inputProps}
+              {...inputPropsMasked}
               id={name}
               type={type}
               placeholder={placeholder}
-              className={`input-field ${
+              className={`border border-gray-300 rounded-md p-2 w-full ${
                 error ? "border-red-500 focus:ring-red-500" : ""
-              }`}
+              } ${className}`}
             />
           )}
         </InputMask>
@@ -62,9 +71,9 @@ function FormField<TFormValues>({
           id={name}
           type={type}
           placeholder={placeholder}
-          className={`input-field ${
+          className={`border border-gray-300 rounded-md p-2 w-full ${
             error ? "border-red-500 focus:ring-red-500" : ""
-          }`}
+          } ${className}`}
           {...register(name, options)}
         />
       )}

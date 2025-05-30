@@ -16,6 +16,7 @@ import { generatePDF } from "../../utils/gereneratePDF";
 import { generateCatequesePDF } from "../../utils/generateCatequesePDF";
 
 import { formatBirthDate, formatDate } from "../../utils/dateUtils";
+import { generateBatismPDF } from "../../utils/generateBatismPDF";
 
 const AdminRegistrationsPage = () => {
   const navigate = useNavigate();
@@ -467,7 +468,7 @@ const AdminRegistrationsPage = () => {
                       generatePDF(selectedRegistration, filename);
                       break;
                     case "batismo":
-                      generatePDF(selectedRegistration, filename);
+                      generateBatismPDF(selectedRegistration, filename);
                       break;
                     default:
                       alert(
