@@ -312,20 +312,28 @@ const AdminRegistrationsPage = () => {
                   </h4>
                   <p className="text-gray-800">{selectedRegistration.name}</p>
                 </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    E-mail
-                  </h4>
-                  <p className="text-gray-800">
-                    {selectedRegistration.email || "Não informado"}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    Telefone
-                  </h4>
-                  <p className="text-gray-800">{selectedRegistration.phone}</p>
-                </div>
+                {selectedRegistration.formType === "crismaJovem" ||
+                  (selectedRegistration.formType === "crismaAdulto" && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                        Telefone
+                      </h4>
+                      <p className="text-gray-800">
+                        {selectedRegistration.phone}
+                      </p>
+                    </div>
+                  ))}
+                {(selectedRegistration.formType === "catecismo" ||
+                  selectedRegistration.formType === "batismo") && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Telefone do Responsável
+                    </h4>
+                    <p className="text-gray-800">
+                      {selectedRegistration.phone}
+                    </p>
+                  </div>
+                )}
                 <div>
                   <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Data de Nascimento
@@ -334,15 +342,16 @@ const AdminRegistrationsPage = () => {
                     {formatDateOfBirth(selectedRegistration.birthdate)}
                   </p>
                 </div>
-                <div className="md:col-span-2">
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    Endereço
-                  </h4>
-                  <p className="text-gray-800">
-                    {selectedRegistration.address}
-                  </p>
-                </div>
-
+                {selectedRegistration.formType !== "batismo" && (
+                  <div className="md:col-span-2">
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Endereço
+                    </h4>
+                    <p className="text-gray-800">
+                      {selectedRegistration.address}
+                    </p>
+                  </div>
+                )}
                 {/* Campos Específicos do Crisma Adulto */}
                 <div>
                   <h4 className="text-sm font-semibold text-primary-800 mb-1">
@@ -360,86 +369,125 @@ const AdminRegistrationsPage = () => {
                     {selectedRegistration.motherName || "Não informado"}
                   </p>
                 </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    Comunidade
-                  </h4>
-                  <p className="text-gray-800">
-                    {selectedRegistration.community || "Não informado"}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    Escolaridade
-                  </h4>
-                  <p className="text-gray-800">
-                    {selectedRegistration.schooling || "Não informado"}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    Participa de algum grupo?
-                  </h4>
-                  <p className="text-gray-800">
-                    {selectedRegistration.groupParticipation || "Não informado"}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    É Batizado?
-                  </h4>
-                  <p className="text-gray-800">
-                    {selectedRegistration.isBaptized === "sim"
-                      ? "Sim"
-                      : selectedRegistration.isBaptized === "nao"
-                      ? "Não"
-                      : "Não informado"}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    Fez a Primeira Eucaristia?
-                  </h4>
-                  <p className="text-gray-800">
-                    {selectedRegistration.firstEucharist === "sim"
-                      ? "Sim"
-                      : selectedRegistration.firstEucharist === "nao"
-                      ? "Não"
-                      : "Não informado"}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    Possui alguma necessidade especial?
-                  </h4>
-                  <p className="text-gray-800">
-                    {selectedRegistration.specialNeeds || "Não informado"}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    Estado Civil
-                  </h4>
-                  <p className="text-gray-800">
-                    {formatMaritalStatus(selectedRegistration.maritalStatus)}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    Horário Disponível
-                  </h4>
-                  <p className="text-gray-800">
-                    {formatAvailableTime(selectedRegistration.availableTime)}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                    Quem é Jesus para você?
-                  </h4>
-                  <p className="text-gray-800">
-                    {selectedRegistration.jesusAnswer || "Não informado"}
-                  </p>
-                </div>
+
+                {selectedRegistration.formType !== "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Comunidade
+                    </h4>
+                    <p className="text-gray-800">
+                      {selectedRegistration.community || "Não informado"}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType !== "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Escolaridade
+                    </h4>
+                    <p className="text-gray-800">
+                      {selectedRegistration.schooling || "Não informado"}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType !== "catecismo" &&
+                  selectedRegistration.formType !== "batismo" && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                        Participa de algum grupo?
+                      </h4>
+                      <p className="text-gray-800">
+                        {selectedRegistration.groupParticipation ||
+                          "Não informado"}
+                      </p>
+                    </div>
+                  )}
+                {selectedRegistration.formType !== "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      É Batizado?
+                    </h4>
+                    <p className="text-gray-800">
+                      {selectedRegistration.isBaptized === "sim"
+                        ? "Sim"
+                        : selectedRegistration.isBaptized === "nao"
+                        ? "Não"
+                        : "Não informado"}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType !== "catecismo" &&
+                  selectedRegistration.formType !== "batismo" && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                        Fez a Primeira Eucaristia?
+                      </h4>
+                      <p className="text-gray-800">
+                        {selectedRegistration.firstEucharist === "sim"
+                          ? "Sim"
+                          : selectedRegistration.firstEucharist === "nao"
+                          ? "Não"
+                          : "Não informado"}
+                      </p>
+                    </div>
+                  )}
+                {selectedRegistration.formType !== "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Possui alguma necessidade especial?
+                    </h4>
+                    <p className="text-gray-800">
+                      {selectedRegistration.specialNeeds || "Não informado"}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType !== "catecismo" &&
+                  selectedRegistration.formType !== "batismo" && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                        Estado Civil
+                      </h4>
+                      <p className="text-gray-800">
+                        {formatMaritalStatus(
+                          selectedRegistration.maritalStatus
+                        )}
+                      </p>
+                    </div>
+                  )}
+                {selectedRegistration.formType !== "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Horário
+                    </h4>
+                    <p className="text-gray-800">
+                      {formatAvailableTime(selectedRegistration.availableTime)}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType === "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Local
+                    </h4>
+                    <p className="text-gray-800">
+                      {formatAvailableTime(
+                        selectedRegistration.availableLocate
+                      )}
+                    </p>
+                  </div>
+                )}
+
+                {selectedRegistration.formType !== "batismo" &&
+                  selectedRegistration.formType !== "catecismo" && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                        Quem é Jesus para você?
+                      </h4>
+                      <p className="text-gray-800">
+                        {selectedRegistration.jesusAnswer || "Não informado"}
+                      </p>
+                    </div>
+                  )}
               </div>
             </div>
             <div className="p-6 border-t border-gray-200 flex justify-end space-x-4">

@@ -87,9 +87,9 @@ export const BatismoForm = ({ register, errors }: BatismoFormProps) => {
 
       <FormSelect
         label="Local:"
-        name="availableTime"
+        name="availableLocate"
         register={register}
-        error={errors.availableTime}
+        error={errors.availableLocate}
         options={[
           { value: "matriz", label: "Matriz de Aparecida" },
           { value: "capSaoPedro", label: "Capela São Pedro e São Paulo" },
