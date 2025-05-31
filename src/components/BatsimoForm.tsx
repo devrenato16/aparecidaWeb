@@ -1,5 +1,4 @@
 // components/forms/BatismoForm.tsx
-import { useWatch } from "react-hook-form";
 import FormField from "./FormField";
 import { format } from "date-fns";
 import { FormSelect } from "./FormSelect";
@@ -92,31 +91,38 @@ export const BatismoForm = ({ register, errors }: BatismoFormProps) => {
         register={register}
         error={errors.availableTime}
         options={[
-          { value: "sab_9h30", label: "Matriz de Aparecida" },
-          { value: "sab_11h30", label: "Capela São Pedro e São Paulo" },
-          { value: "sab_9h30", label: "Capela São Sebastião" },
-          {
-            value: "sab_11h30",
-            label: "Capela São Pedro e São Paulo, 16h00 - 18h00",
-          },
+          { value: "matriz", label: "Matriz de Aparecida" },
+          { value: "capSaoPedro", label: "Capela São Pedro e São Paulo" },
+          { value: "capSaoSebastiao", label: "Capela São Sebastião" },
         ]}
       />
 
       <FormField
         label="Data do Batismo:"
-        name="baptismdate"
+        name="baptismDate"
         type="date"
         register={register}
-        error={errors.baptismdate}
-        options={{ required: "A data de nascimento é obrigatória" }}
+        error={errors.baptismDate}
+        options={{ required: "A data de batismo é obrigatória" }}
       />
       <FormField
         label="Data da Reunião"
-        name="meetingdate"
+        name="meetingDate"
         type="date"
         register={register}
-        error={errors.meetingdate}
-        options={{ required: "A data de nascimento é obrigatória" }}
+        error={errors.meetingDate}
+        options={{ required: "A data da reunião é obrigatória" }}
+      />
+
+      <FormField
+        label="Observações:"
+        name="observations"
+        type="textarea"
+        register={register}
+        error={errors.observations}
+        options={{}}
+        placeholder="Escreva aqui se houver alguma observação relevante"
+        className="md:col-span-2 h-32 rounded-md p-2 w-full mb-10"
       />
 
       {/* Data da Inscrição */}

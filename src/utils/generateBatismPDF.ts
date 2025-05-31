@@ -1,4 +1,3 @@
-// utils/generateBatismPDF.ts
 import jsPDF from 'jspdf';
 
 export const generateBatismPDF = (formData: any, filename: string) => {
@@ -7,19 +6,26 @@ export const generateBatismPDF = (formData: any, filename: string) => {
   const margin = 20;
   let y = 30;
 
-  // Helpers
-  const formatDate = (date: string | Date) => {
+  // Helper melhorado para evitar erro de fuso horário
+  const formatDate = (date: string | Date): string => {
     if (!date) return "Data inválida";
-    const d = new Date(date);
-    return isNaN(d.getTime()) ? "Data inválida" : d.toLocaleDateString('pt-BR');
-  };
 
-  const timeMap: Record<string, string> = {
-    sab_9h30: "Matriz de Aparecida, 7h30 - 9h00",
-    sab_11h30: "Matriz de Aparecida, 9h30 - 11h00",
-    "sab_ 15h00": "Matriz de Aparecida, 13h00 - 15h00",
-    sab_9h30_2: "Capela São Sebastião, 8h00 - 10h00",
-    sab_11h30_2: "Capela São Pedro e São Paulo, 16h00 - 18h00"
+    let parsedDate: Date;
+
+    if (typeof date === 'string') {
+      const [year, month, day] = date.split('-').map(Number);
+      if (year && month && day) {
+        parsedDate = new Date(year, month - 1, day); // Mês começa em 0
+      } else {
+        parsedDate = new Date(date);
+      }
+    } else {
+      parsedDate = date;
+    }
+
+    if (isNaN(parsedDate.getTime())) return "Data inválida";
+
+    return parsedDate.toLocaleDateString('pt-BR'); // Formato brasileiro
   };
 
   const addField = (label: string, value: string) => {
@@ -53,56 +59,23 @@ export const generateBatismPDF = (formData: any, filename: string) => {
 
   // Campos do formulário
   addField("Nome completo", formData.name || "Não informado");
-  addField("Data de nascimento", formatDate(formData.birthdate));
+  addField("Data de Nascimento", formatDate(formData.birthdate));
   addField("Telefone do responsável", formData.phone || "Não informado");
   addField("Nome do Pai", formData.fatherName || "Não informado");
   addField("Nome da Mãe", formData.motherName || "Não informado");
   addField("Nome do Padrinho", formData.godfatherName || "Não informado");
   addField("Nome da Madrinha", formData.godmotherName || "Não informado");
-
-
-  // Necessidades especiais
-  const specialNeedsValue = formData.specialNeeds === "sim" ? "Sim" : "Não";
-  const splitSpecialNeeds = doc.splitTextToSize(specialNeedsValue, 170);
-  doc.setFont("helvetica", "bold");
-  doc.text("Possui necessidade especial:", margin, y);
-  doc.setFont("helvetica", "normal");
-  splitSpecialNeeds.forEach((line, index) => {
-    doc.text(line, margin + 51, y + index * 7);
-  });
-  y += 7 * splitSpecialNeeds.length;
-
-  // Horário disponível
-  const timeValue =
-    timeMap[formData.availableTime] ||
-    formData.availableTime ||
-    "Não informado";
-  addField("Horário Disponível", timeValue);
-
-  // Termo de compromisso
-  y += 15;
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
-  doc.text("Termo de Compromisso", margin, y);
-  y += 10;
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "normal");
-
-  const termoText = `Eu, ${formData.motherName || "______"}, a observar e motivar a participação do meu filho(a) nos ENCONTROS DE FORMAÇÕES DA CATEQUESE, NECESSÁRIOS PARA O MESMO(A) RECEBER O SACRAMENTO DA PRIMEIRA EUCARISTIA, e estou consciente que faltando a esses COMPROMISSOS, NÃO poderá receber o SACRAMENTO.`;
-
-  const splitText = doc.splitTextToSize(termoText, 170);
-  splitText.forEach((line) => {
-    doc.text(line, margin, y);
-    y += 7;
-  });
+  addField("Data de Batismo", formatDate(formData.baptismDate));
+  addField("Data da Reunião", formatDate(formData.meetingDate));
+  addField("Observações", formData.observations || "Não informado");
 
   // Data da inscrição
   y += 15;
   const today = new Date().toLocaleDateString('pt-BR');
   doc.setFont("helvetica", "bold");
-  doc.text("Danta da Incrição:", pageWidth - margin - 50, y);
+  doc.text("Data da Inscrição:", pageWidth - margin - 60, y);
   doc.setFont("helvetica", "normal");
-  doc.text(today, pageWidth - margin, y, {align:"right"});
+  doc.text(today, pageWidth - margin - 10, y, { align: "right" });
 
   // Rodapé
   y = 280;
