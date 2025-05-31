@@ -62,7 +62,7 @@ export const CrismaJovemForm = ({
         register={register}
         error={errors.address}
         options={{ required: "O endereço é obrigatório" }}
-        placeholder="Rua, número, bairro, cidade, CEP"
+        placeholder="Rua, número, bairro, cidade."
       />
 
       <FormField

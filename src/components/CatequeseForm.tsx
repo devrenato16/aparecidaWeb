@@ -1,4 +1,3 @@
-// components/forms/CatequeseForm.tsx
 import { useWatch } from "react-hook-form";
 import { format } from "date-fns";
 import FormField from "./FormField";
@@ -29,6 +28,7 @@ export const CatequeseForm = ({
         placeholder="Digite seu nome completo"
         className="md:col-span-2 w-full"
       />
+
       <FormField
         label="Data de Nascimento:"
         name="birthdate"
@@ -37,6 +37,7 @@ export const CatequeseForm = ({
         error={errors.birthdate}
         options={{ required: "A data de nascimento é obrigatória" }}
       />
+
       <FormField
         label="Telefone do Responsável:"
         name="phone"
@@ -63,6 +64,7 @@ export const CatequeseForm = ({
         options={{ required: "Este campo é obrigatório" }}
         className="md:col-span-2"
       />
+
       <FormField
         label="Endereço:"
         name="address"
@@ -70,7 +72,7 @@ export const CatequeseForm = ({
         error={errors.address}
         options={{ required: "O endereço é obrigatório" }}
         placeholder="Rua, número, bairro, cidade."
-        className="md: col-span-2"
+        className="md:col-span-2"
       />
 
       <FormField
@@ -89,9 +91,9 @@ export const CatequeseForm = ({
         options={{ required: "Este campo é obrigatório" }}
       />
 
-      {/* Questões com radio buttons */}
+      {/* Batizado */}
       <FormField
-        label="A Criança é batizada ?"
+        label="A Criança é batizada?"
         name="isBaptized"
         register={register}
         error={errors.isBaptized}
@@ -107,11 +109,12 @@ export const CatequeseForm = ({
         </div>
       </FormField>
 
+      {/* Necessidade especial */}
       <FormField
-        label="Possui necessidade especial ?"
+        label="Possui necessidade especial?"
         name="specialNeeds"
         register={register}
-        error={errors.firstEucharist}
+        error={errors.specialNeeds}
         options={{ required: "Campo obrigatório" }}
       >
         <div className="flex gap-4">
@@ -125,14 +128,15 @@ export const CatequeseForm = ({
       </FormField>
 
       <FormField
-        label="Se sim, qual ?"
-        name="specialNeeds"
+        label="Se sim, qual?"
+        name="specialNeedsDetails"
         register={register}
-        error={errors.specialNeeds}
+        error={errors.specialNeedsDetails}
         placeholder="Qual?"
         className="md:col-span-2"
       />
 
+      {/* Horário de participação */}
       <FormSelect
         label="Qual horário a criança poderá participar?"
         name="availableTime"
@@ -141,7 +145,7 @@ export const CatequeseForm = ({
         options={[
           { value: "sab_9h30", label: "Matriz de Aparecida, 7h30 - 9h00" },
           { value: "sab_11h30", label: "Matriz de Aparecida, 9h30 - 11h00" },
-          { value: "sab_ 15h00", label: "Matriz de Aparecida, 13h00 - 15h00" },
+          { value: "sab_15h00", label: "Matriz de Aparecida, 13h00 - 15h00" },
           { value: "sab_8h00", label: "Capela São Sebastião, 8h00 - 10h00" },
           {
             value: "sab_16h00",
@@ -153,22 +157,20 @@ export const CatequeseForm = ({
 
       {/* Termo de Compromisso */}
       <div className="mb-4 md:col-span-2">
-        <h3 className="text-lg font-bold text-center mb-6">
+        <h3 className="text-lg font-bold text-center mb-6 whitespace-nowrap">
           TERMO DE COMPROMISSO
         </h3>
-        <p className="text-justify">
-          <span className="font-bold inline-block w-full">
-            <span className="font-normal">Eu,</span>
-            <input
-              type="text"
-              {...register("termName", {})}
-              value={motherName || ""}
-              className="p-1 w-full max-w-lg"
-            />
-          </span>
-          a observar e motivar a participação do meu filho (a) nos ENCONTROS DE
-          FORMAÇÕES DA CATEQUESE, NECESSÁRIOS PARA O MESMO(A) RECEBER O
-          SACRAMENTO DA PRIMEIRA EUCARISTIA, e estou consciente que faltando a
+        <p className="text-left">
+          <span className="font-normal">Eu, </span>
+          <input
+            type="text"
+            {...register("termName")}
+            value={motherName || ""}
+            className="p-1 w-full sm:max-w-md inline-block rounded"
+          />
+          , a observar e motivar a participação do meu filho (a) nos ENCONTROS
+          DE FORMAÇÕES DA CATEQUESE, NECESSÁRIOS PARA O MESMO(A) RECEBER O
+          SACRAMENTO DA PRIMEIRA EUCARISTIA, e estou consciente que, faltando a
           esses COMPROMISSOS, NÃO poderá receber o SACRAMENTO.
         </p>
         {errors.termName && (
@@ -183,7 +185,7 @@ export const CatequeseForm = ({
           id="inscriptionDate"
           value={`Data de Inscrição: ${currentDate}`}
           readOnly
-          className="text-primary-600 p-2 w-full md:w-1/2 text-center  font-bold "
+          className="text-primary-600 p-2 w-full md:w-1/2 text-center font-bold"
         />
       </div>
     </>
