@@ -82,8 +82,20 @@ const AdminRegistrationsPage = () => {
       sab_9h30: "Sábado, 9h30 - 11h00",
       sab_11h30: "Sábado, 11h30 - 13h00",
       sab_15h00: "Sábado, 15h00 - 16h30",
+      matriz: "Matriz de Aparecida",
+      capSaoPedro: "Capela São Pedro e São Paulo",
+      capSaoSebastiao: "Capela São Sebastião",
     };
     return options[time as keyof typeof options] || time || "Não informado";
+  };
+
+  const formatAvailableLocate = (locate: string): string => {
+    const options = {
+      matriz: "Matriz de Aparecida",
+      capSaoPedro: "Capela São Pedro e São Paulo",
+      capSaoSebastiao: "Capela São Sebastião",
+    };
+    return options[locate as keyof typeof options] || locate || "Não informado";
   };
 
   const formatDateOfBirth = (date: string): string => {
@@ -467,12 +479,14 @@ const AdminRegistrationsPage = () => {
                 {selectedRegistration.formType === "batismo" && (
                   <div>
                     <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                      Local
+                      Local do Batismo
                     </h4>
                     <p className="text-gray-800">
-                      {formatAvailableTime(
-                        selectedRegistration.availableLocate
-                      )}
+                      {selectedRegistration.availableLocate
+                        ? formatAvailableLocate(
+                            selectedRegistration.availableLocate
+                          )
+                        : "Não informado"}
                     </p>
                   </div>
                 )}
