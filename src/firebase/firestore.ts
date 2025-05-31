@@ -37,6 +37,9 @@ export interface FormData extends DocumentData {
   maritalStatus: "casado" | "moraJunto" | "solteiro";
   availableTime: string;
   jesusAnswer: string;
+  godfatherName: string;
+  godmotherName: string;
+  availableLocate: string;
 }
 
 // Add a new registration
