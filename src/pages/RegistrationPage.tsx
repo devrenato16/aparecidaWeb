@@ -216,7 +216,10 @@ const RegistrationPage = () => {
                     <div className="flex flex-wrap justify-between mt-8 gap-4">
                       <button
                         type="button"
-                        onClick={() => setActiveForm(null)}
+                        onClick={() => {
+                          reset();
+                          setActiveForm(null);
+                        }}
                         className="btn btn-outline"
                       >
                         Voltar

@@ -18,6 +18,8 @@ export const CrismaJovemForm = ({
   const fullName = useWatch({ name: "name", control });
   const currentDate = format(new Date(), "dd/MM/yyyy");
 
+  const specialNeeds = useWatch({ name: "specialNeeds", control });
+
   return (
     <>
       <FormField
@@ -162,15 +164,6 @@ export const CrismaJovemForm = ({
       </FormField>
 
       <FormField
-        label="Possui alguma necessidade especial?"
-        name="specialNeeds"
-        register={register}
-        error={errors.specialNeeds}
-        placeholder="Qual?"
-        className="md:col-span-2"
-      />
-
-      <FormField
         label="É casado(a) ou convive maritalmente com alguém?"
         name="maritalStatus"
         register={register}
@@ -201,6 +194,41 @@ export const CrismaJovemForm = ({
         </div>
       </FormField>
 
+      <FormField
+        label="Possui necessidade especial?"
+        name="specialNeeds"
+        register={register}
+        error={errors.specialNeeds}
+        options={{ required: "Campo obrigatório" }}
+      >
+        <div className="flex gap-4">
+          <label>
+            <input type="radio" value="sim" {...register("specialNeeds")} /> Sim
+          </label>
+          <label>
+            <input type="radio" value="nao" {...register("specialNeeds")} /> Não
+          </label>
+        </div>
+      </FormField>
+
+      {/* Campo condicional */}
+      {specialNeeds === "sim" && (
+        <FormField
+          label="Se sim, qual?"
+          name="specialNeedsDetails"
+          register={register}
+          error={errors.specialNeedsDetails}
+          placeholder="Qual?"
+          className="md:col-span-2"
+          options={{
+            validate: (value) =>
+              specialNeeds === "sim" && !value
+                ? "Este campo é obrigatório quando a resposta é 'Sim'"
+                : true,
+          }}
+        />
+      )}
+
       <FormSelect
         label="Qual horário você poderá participar?"
         name="availableTime"
@@ -230,12 +258,9 @@ export const CrismaJovemForm = ({
         <p className="text-justify">
           <span className="font-bold inline-block w-full">
             <span className="font-normal">Eu,</span>
-            <input
-              type="text"
-              {...register("termName", {})}
-              value={fullName || ""}
-              className="p-1 w-full max-w-lg"
-            />
+            <span className="font-bold inline-block w-full sm:max-w-md p-1 rounded">
+              {fullName || ""}
+            </span>
           </span>
           comprometo-me a participar dos ENCONTROS DE FORMAÇÕES NECESSÁRIOS PARA
           RECEBER O SACRAMENTO DA CRISMA E PARTICIPAR DA MISSA DOMINICAL e estou

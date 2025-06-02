@@ -33,7 +33,7 @@ export interface FormData extends DocumentData {
   groupParticipation: string;
   isBaptized: "sim" | "nao";
   firstEucharist: "sim" | "nao";
-  specialNeeds: string;
+  specialNeeds: "sim" | "nao";
   maritalStatus: "casado" | "moraJunto" | "solteiro";
   availableTime: string;
   jesusAnswer: string;
@@ -42,6 +42,8 @@ export interface FormData extends DocumentData {
   availableLocate: string;
   meetingDate: string;
   baptismDate: string;
+  avaiableDay: string;
+  therm: string;
   
 }
 

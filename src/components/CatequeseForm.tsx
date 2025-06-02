@@ -17,6 +17,8 @@ export const CatequeseForm = ({
   const motherName = useWatch({ name: "motherName", control });
   const currentDate = format(new Date(), "dd/MM/yyyy");
 
+  const specialNeeds = useWatch({ name: "specialNeeds", control });
+
   return (
     <>
       <FormField
@@ -127,28 +129,40 @@ export const CatequeseForm = ({
         </div>
       </FormField>
 
-      <FormField
-        label="Se sim, qual?"
-        name="specialNeedsDetails"
-        register={register}
-        error={errors.specialNeedsDetails}
-        placeholder="Qual?"
-        className="md:col-span-2"
-      />
+      {/* Campo condicional */}
+      {specialNeeds === "sim" && (
+        <FormField
+          label="Se sim, qual?"
+          name="specialNeedsDetails"
+          register={register}
+          error={errors.specialNeedsDetails}
+          placeholder="Qual?"
+          className="md:col-span-2"
+          options={{
+            validate: (value) =>
+              specialNeeds === "sim" && !value
+                ? "Este campo é obrigatório quando a resposta é 'Sim'"
+                : true,
+          }}
+        />
+      )}
 
       {/* Horário de participação */}
       <FormSelect
         label="Qual horário a criança poderá participar?"
-        name="availableTime"
+        name="availableDay"
         register={register}
-        error={errors.availableTime}
+        error={errors.availableDay}
         options={[
-          { value: "sab_9h30", label: "Matriz de Aparecida, 7h30 - 9h00" },
-          { value: "sab_11h30", label: "Matriz de Aparecida, 9h30 - 11h00" },
-          { value: "sab_15h00", label: "Matriz de Aparecida, 13h00 - 15h00" },
-          { value: "sab_8h00", label: "Capela São Sebastião, 8h00 - 10h00" },
+          { value: "matriz_7h30", label: "Matriz de Aparecida, 7h30 - 9h00" },
+          { value: "matriz_11h30", label: "Matriz de Aparecida, 9h30 - 11h00" },
           {
-            value: "sab_16h00",
+            value: "matriz_13h00",
+            label: "Matriz de Aparecida, 13h00 - 15h00",
+          },
+          { value: "cap_8h00", label: "Capela São Sebastião, 8h00 - 10h00" },
+          {
+            value: "cap_16h00",
             label: "Capela São Pedro e São Paulo, 16h00 - 18h00",
           },
         ]}
@@ -162,12 +176,9 @@ export const CatequeseForm = ({
         </h3>
         <p className="text-left">
           <span className="font-normal">Eu, </span>
-          <input
-            type="text"
-            {...register("termName")}
-            value={motherName || ""}
-            className="p-1 w-full sm:max-w-md inline-block rounded"
-          />
+          <span className="font-bold inline-block w-full sm:max-w-md p-1 rounded">
+            {motherName || ""}
+          </span>
           , a observar e motivar a participação do meu filho (a) nos ENCONTROS
           DE FORMAÇÕES DA CATEQUESE, NECESSÁRIOS PARA O MESMO(A) RECEBER O
           SACRAMENTO DA PRIMEIRA EUCARISTIA, e estou consciente que, faltando a

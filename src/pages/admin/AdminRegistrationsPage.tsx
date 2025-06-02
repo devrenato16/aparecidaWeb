@@ -82,11 +82,18 @@ const AdminRegistrationsPage = () => {
       sab_9h30: "Sábado, 9h30 - 11h00",
       sab_11h30: "Sábado, 11h30 - 13h00",
       sab_15h00: "Sábado, 15h00 - 16h30",
-      matriz: "Matriz de Aparecida",
-      capSaoPedro: "Capela São Pedro e São Paulo",
-      capSaoSebastiao: "Capela São Sebastião",
     };
     return options[time as keyof typeof options] || time || "Não informado";
+  };
+  const formatAvailableDay = (day: string): string => {
+    const options = {
+      matriz_7h30: "Matriz de Aparecida, 7h30 - 9h00",
+      matriz_11h30: "Matriz de Aparecida, 9h30 - 11h00",
+      matriz_13h00: "Matriz de Aparecida, 13h00 - 15h00",
+      cap_8h00: "Capela São Sebastião, 8h00 - 10h00",
+      cap_16h00: "Capela São Pedro e São Paulo, 16h00 - 18h00",
+    };
+    return options[day as keyof typeof options] || day || "Não informado";
   };
 
   const formatAvailableLocate = (locate: string): string => {
@@ -362,7 +369,7 @@ const AdminRegistrationsPage = () => {
                     </p>
                   </div>
                 )}
-                {/* Campos Específicos do Crisma Adulto */}
+
                 <div>
                   <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Nome do Pai
@@ -447,8 +454,24 @@ const AdminRegistrationsPage = () => {
                       Possui alguma necessidade especial?
                     </h4>
                     <p className="text-gray-800">
-                      {selectedRegistration.specialNeeds || "Não informado"}
+                      {selectedRegistration.specialNeeds === "sim"
+                        ? "Sim"
+                        : selectedRegistration.specialNeeds === "nao"
+                        ? "Não"
+                        : "Não informado"}
                     </p>
+
+                    {selectedRegistration.specialNeeds === "sim" && (
+                      <div className="mt-5">
+                        <h5 className="text-sm font-semibold text-primary-800">
+                          Qual?
+                        </h5>
+                        <p className="text-gray-800">
+                          {selectedRegistration.specialNeedsDetails ||
+                            "Não informado"}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
                 {selectedRegistration.formType !== "catecismo" &&
@@ -464,16 +487,30 @@ const AdminRegistrationsPage = () => {
                       </p>
                     </div>
                   )}
-                {selectedRegistration.formType !== "batismo" && (
-                  <div>
-                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                      Horário
-                    </h4>
-                    <p className="text-gray-800">
-                      {formatAvailableTime(selectedRegistration.availableTime)}
-                    </p>
-                  </div>
-                )}
+                {selectedRegistration.formType !== "batismo" &&
+                  selectedRegistration.formType !== "catecismo" && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                        Horário
+                      </h4>
+                      <p className="text-gray-800">
+                        {formatAvailableTime(
+                          selectedRegistration.availableTime
+                        )}
+                      </p>
+                    </div>
+                  )}
+                {selectedRegistration.formType !== "batismo" &&
+                  selectedRegistration.formType === "catecismo" && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                        Horário
+                      </h4>
+                      <p className="text-gray-800">
+                        {formatAvailableDay(selectedRegistration.availableDay)}
+                      </p>
+                    </div>
+                  )}
                 {selectedRegistration.formType === "batismo" && (
                   <div>
                     <h4 className="text-sm font-semibold text-primary-800 mb-1">
