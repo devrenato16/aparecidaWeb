@@ -55,6 +55,19 @@ const MassSchedulePage = () => {
     },
   ];
 
+  const groupsCelebrations = [
+    {
+      title: "Grupo de Oração Resgatai",
+      schedule: "Sábado das 18h30 às 20h30",
+      description: "Grupo de oração da Renovação Carismática Católica",
+    },
+    {
+      title: "Terço dos Homens",
+      schedule: "Terça-feira das 18h30 às 20h30",
+      description: "Momento de oração voltado para os",
+    },
+  ];
+
   return (
     <>
       <Helmet>
@@ -66,7 +79,7 @@ const MassSchedulePage = () => {
       </Helmet>
 
       <Hero
-        title="Horários de Missas"
+        title="Horários"
         subtitle="Confira os horários em nossa paróquia"
         backgroundImage={missa}
       />
@@ -134,10 +147,10 @@ const MassSchedulePage = () => {
                 viewport={{ once: true }}
                 className="bg-white rounded-lg shadow-elevation-1 p-6"
               >
-                <h3 className="text-xl font-serif text-primary-800 mb-1">
+                <h3 className="text-xl font-serif font-semibold text-primary-800 mb-1">
                   {celebration.title}
                 </h3>
-                <p className="text-gray-400">{celebration.description}</p>
+                <p className="text-gray-400 ">{celebration.description}</p>
                 <p className="text-gray-600 font-medium flex items-center mt-10">
                   <Clock className="h-4 w-4 text-secondary mr-2" />
                   {celebration.schedule}
@@ -145,6 +158,33 @@ const MassSchedulePage = () => {
                 <p className="text-gray-600 font-medium flex items-center mt-2">
                   <Clock className="h-4 w-4 text-secondary mr-2" />
                   {celebration.schedule2}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section bg-gray-50 ">
+        <div className="container-custom">
+          <SectionTitle title="Grupos e Pastorais" center />
+
+          <div className="mt-10 grid grid-cols1 md:grid-cols-2 gap-8  ">
+            {groupsCelebrations.map((celebration, index) => (
+              <motion.div
+                key={celebration.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-lg shadow-elevation-1 p-6 "
+              >
+                <h3 className="text-xl font-serif font-semibold text-primary-800 mb-1">
+                  {celebration.title}
+                </h3>
+                <p className="text-gray-400">{celebration.description}</p>
+                <p className="text-gray-600 font-medium flex items-center mt-10">
+                  <Clock className="h-4 w-4 text-secondary mr-2" />
+                  {celebration.schedule}
                 </p>
               </motion.div>
             ))}
