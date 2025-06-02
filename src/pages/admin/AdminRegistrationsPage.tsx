@@ -479,6 +479,26 @@ const AdminRegistrationsPage = () => {
                 {selectedRegistration.formType === "batismo" && (
                   <div>
                     <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Nome da Madrinha
+                    </h4>
+                    <p className="text-gray-800">
+                      {selectedRegistration.godmotherName || "Não informado"}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType === "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Nome do Padrinho
+                    </h4>
+                    <p className="text-gray-800">
+                      {selectedRegistration.godfatherName || "Não informado"}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType === "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
                       Local do Batismo
                     </h4>
                     <p className="text-gray-800">
@@ -487,6 +507,36 @@ const AdminRegistrationsPage = () => {
                             selectedRegistration.availableLocate
                           )
                         : "Não informado"}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType === "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Data do Batismo
+                    </h4>
+                    <p className="text-primary-800 text-sm">
+                      {formatDateOfBirth(selectedRegistration.baptismDate)}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType === "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Data da Reunião
+                    </h4>
+                    <p className="text-primary-800 text-sm">
+                      {formatDateOfBirth(selectedRegistration.meetingDate)}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType === "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Observações
+                    </h4>
+                    <p className="text-gray-800">
+                      {selectedRegistration.observations || "Não informado"}
                     </p>
                   </div>
                 )}

@@ -40,6 +40,9 @@ export interface FormData extends DocumentData {
   godfatherName: string;
   godmotherName: string;
   availableLocate: string;
+  meetingDate: string;
+  baptismDate: string;
+  
 }
 
 // Add a new registration
