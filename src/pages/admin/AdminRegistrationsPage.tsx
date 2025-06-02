@@ -216,9 +216,7 @@ const AdminRegistrationsPage = () => {
                       <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
                         Nome
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        E-mail
-                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider"></th>
                       <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
                         Telefone
                       </th>
