@@ -21,6 +21,10 @@ import { generateBatismPDF } from "../../utils/generateBatismPDF";
 const AdminRegistrationsPage = () => {
   const navigate = useNavigate();
   const [registrations, setRegistrations] = useState<FormData[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [registrationToDelete, setRegistrationToDelete] = useState<
+    string | null
+  >(null);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [selectedRegistration, setSelectedRegistration] =
@@ -44,23 +48,8 @@ const AdminRegistrationsPage = () => {
   };
 
   const handleDeleteRegistration = async (id: string) => {
-    if (!window.confirm("Tem certeza que deseja excluir esta inscrição?"))
-      return;
-    try {
-      const result = await deleteRegistration(id);
-      if (result.success) {
-        toast.success("Inscrição excluída com sucesso!");
-        setRegistrations((prev) => prev.filter((reg) => reg.id !== id));
-        if (selectedRegistration?.id === id) {
-          setSelectedRegistration(null);
-        }
-      } else {
-        toast.error("Erro ao excluir inscrição");
-      }
-    } catch (error) {
-      console.error("Error deleting registration:", error);
-      toast.error("Erro ao excluir inscrição");
-    }
+    setRegistrationToDelete(id);
+    setIsDeleteModalOpen(true);
   };
 
   // Funções de formatação dos dados
@@ -636,6 +625,68 @@ const AdminRegistrationsPage = () => {
               >
                 Excluir
               </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+      {/* Modal de Confirmação de Exclusão */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-lg shadow-elevation-3 w-full max-w-md"
+          >
+            <div className="p-6 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-primary-800">
+                Confirmar Exclusão
+              </h3>
+            </div>
+            <div className="p-6">
+              <p className="text-gray-700 mb-6">
+                Tem certeza que deseja excluir esta inscrição? Esta ação não
+                pode ser desfeita.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setIsDeleteModalOpen(false)}
+                  className="btn btn-outline"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={async () => {
+                    if (!registrationToDelete) return;
+
+                    try {
+                      const result = await deleteRegistration(
+                        registrationToDelete
+                      );
+                      if (result.success) {
+                        toast.success("Inscrição excluída com sucesso!");
+                        setRegistrations((prev) =>
+                          prev.filter((reg) => reg.id !== registrationToDelete)
+                        );
+                        if (selectedRegistration?.id === registrationToDelete) {
+                          setSelectedRegistration(null);
+                        }
+                      } else {
+                        toast.error("Erro ao excluir inscrição");
+                      }
+                    } catch (error) {
+                      console.error("Error deleting registration:", error);
+                      toast.error("Erro ao excluir inscrição");
+                    } finally {
+                      setIsDeleteModalOpen(false);
+                      setRegistrationToDelete(null);
+                    }
+                  }}
+                  className="btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500"
+                >
+                  Excluir
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>
