@@ -5,7 +5,7 @@ import Hero from "../components/Hero";
 import SectionTitle from "../components/SectionTitle";
 import Card from "../components/Card";
 
-import missa from "../assets/missa.webp";
+import capelas from "../assets/capelas.webp";
 
 const ChapelsPage = () => {
   const schedules = [
@@ -46,19 +46,19 @@ const ChapelsPage = () => {
         <title>Horários | Paróquia de Aparecida</title>
         <meta
           name="description"
-          content="Confira os horários de missas, confissões e eventos na Paróquia de Aparecida."
+          content="Confira os horários de capelass, confissões e eventos na Paróquia de Aparecida."
         />
       </Helmet>
 
       <Hero
         title="Capelas"
         subtitle="Confira os horários em nossas capelas"
-        backgroundImage={missa}
+        backgroundImage={capelas}
       />
 
       <section className="section">
         <div className="container-custom">
-          <SectionTitle title="Missas Semanais" center />
+          <SectionTitle title="capelass Semanais" center />
 
           <motion.div
             initial={{ opacity: 0 }}
