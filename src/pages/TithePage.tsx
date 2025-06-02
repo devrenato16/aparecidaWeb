@@ -12,7 +12,6 @@ import Hero from "../components/Hero";
 import SectionTitle from "../components/SectionTitle";
 import Card from "../components/Card";
 
-import logo from "../assets/logoBB.svg";
 import hands from "../assets/hands.webp";
 
 const TithePage = () => {

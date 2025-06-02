@@ -15,11 +15,11 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
   };
 
   const timeMap: Record<string, string> = {
-    sab_9h30: "Matriz de Aparecida, 7h30 - 9h00",
-    sab_11h30: "Matriz de Aparecida, 9h30 - 11h00",
-    "sab_ 15h00": "Matriz de Aparecida, 13h00 - 15h00",
-    sab_9h30_2: "Capela São Sebastião, 8h00 - 10h00",
-    sab_11h30_2: "Capela São Pedro e São Paulo, 16h00 - 18h00"
+      matriz_7h30: "Matriz de Aparecida, 7h30 - 9h00",
+      matriz_11h30: "Matriz de Aparecida, 9h30 - 11h00",
+      matriz_13h00: "Matriz de Aparecida, 13h00 - 15h00",
+      cap_8h00: "Capela São Sebastião, 8h00 - 10h00",
+      cap_16h00: "Capela São Pedro e São Paulo, 16h00 - 18h00"
   };
 
   const addField = (label: string, value: string) => {
@@ -73,11 +73,11 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
   y += 7 * splitSpecialNeeds.length;
 
   // Horário disponível
-  const timeValue =
-    timeMap[formData.availableTime] ||
-    formData.availableTime ||
+  const dayValue =
+    timeMap[formData.availableDay] ||
+    formData.availableDay ||
     "Não informado";
-  addField("Horário Disponível", timeValue);
+  addField("Horário Disponível", dayValue);
 
   // Termo de compromisso
   y += 15;

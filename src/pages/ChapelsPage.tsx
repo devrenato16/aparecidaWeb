@@ -7,64 +7,36 @@ import Card from "../components/Card";
 
 import missa from "../assets/missa.webp";
 
-const MassSchedulePage = () => {
+const ChapelsPage = () => {
   const schedules = [
     {
-      day: "Domingo",
-      times: ["6h30", "9h30", "17h30"],
+      name: "São Pedro e São Paulo",
+      times: ["Sábado às 18h30"],
     },
     {
-      day: "Segunda-feira",
-      times: [],
-      type: "Não há celebrações",
+      name: "Santa Maria Mãe de Deus",
+      times: ["2º e 4º sábado às 18h30"],
     },
     {
-      day: "Terça-feira",
-      times: ["19h00"],
+      name: "São Sebastião",
+      times: ["Domingo às 16h00"],
     },
     {
-      day: "Quarta-feira",
-      times: ["19h00"],
-    },
-    {
-      day: "Quinta-feira",
-      times: ["19h00"],
-    },
-    {
-      day: "Sexta-feira",
-      times: ["19h00"],
-    },
-    {
-      day: "Sábado",
-      times: ["18h00"],
+      name: "Nossa Senhora de Guadalupe",
+      times: ["1º e 3º sábado às 19h00"],
     },
   ];
 
   const specialCelebrations = [
     {
-      title: "Adoração ao Santíssimo Sacramento",
-      schedule: "Quintas-feiras das 15h00 às 18h00",
-      schedule2: "Quintas-feiras das 20h00 às 21h00",
+      title: "Adoração Capela São Pedro e São Paulo",
+      schedule: "Terça-feira às 19h30",
       description: "Momento de oração e intimidade com o Senhor",
     },
     {
-      title: "Confissões",
-      schedule: "Quartas e sextas das 15h00 às 18h00",
-      schedule2: "Quintas-feiras das 20h00 às 21h00",
-      description: "Sacramento da Reconciliação",
-    },
-  ];
-
-  const groupsCelebrations = [
-    {
-      title: "Grupo de Oração Resgatai",
-      schedule: "Sábado das 18h30 às 20h30",
-      description: "Grupo de oração da Renovação Carismática Católica",
-    },
-    {
-      title: "Terço dos Homens",
-      schedule: "Terça-feira das 18h30 às 20h30",
-      description: "Momento de oração voltado para os",
+      title: "Cenáculo Mariano Capela São Sebastião",
+      schedule: "Terça-feira às 19h30",
+      description: "Orações à Nossa Senhora",
     },
   ];
 
@@ -79,8 +51,8 @@ const MassSchedulePage = () => {
       </Helmet>
 
       <Hero
-        title="Horários"
-        subtitle="Confira os horários em nossa paróquia"
+        title="Capelas"
+        subtitle="Confira os horários em nossas capelas"
         backgroundImage={missa}
       />
 
@@ -97,22 +69,19 @@ const MassSchedulePage = () => {
           >
             {schedules.map((schedule, index) => (
               <motion.div
-                key={schedule.day}
+                key={schedule.name}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
                 <Card
-                  title={schedule.day}
+                  title={schedule.name}
                   icon={<Calendar className="h-6 w-6" />}
                 >
                   <div>
                     {schedule.times.length > 0 ? (
                       <>
-                        <p className="text-gray-700 font-medium mb-2">
-                          {schedule.type}
-                        </p>
                         <div className="flex flex-col space-y-1">
                           {schedule.times.map((time) => (
                             <div key={time} className="flex items-center">
@@ -135,7 +104,7 @@ const MassSchedulePage = () => {
 
       <section className="section bg-gray-50">
         <div className="container-custom">
-          <SectionTitle title="Adorações e Confissões" center />
+          <SectionTitle title="Adorações e Momentos de Oração" center />
 
           <div className="mt-10 grid grid-cols1 md:grid-cols-2 gap-8">
             {specialCelebrations.map((celebration, index) => (
@@ -155,37 +124,6 @@ const MassSchedulePage = () => {
                   <Clock className="h-4 w-4 text-secondary mr-2" />
                   {celebration.schedule}
                 </p>
-                <p className="text-gray-600 font-medium flex items-center mt-2">
-                  <Clock className="h-4 w-4 text-secondary mr-2" />
-                  {celebration.schedule2}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className="section bg-gray-50 ">
-        <div className="container-custom">
-          <SectionTitle title="Grupos e Pastorais" center />
-
-          <div className="mt-10 grid grid-cols1 md:grid-cols-2 gap-8  ">
-            {groupsCelebrations.map((celebration, index) => (
-              <motion.div
-                key={celebration.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-lg shadow-elevation-1 p-6 "
-              >
-                <h3 className="text-xl font-serif font-semibold text-primary-800 mb-1">
-                  {celebration.title}
-                </h3>
-                <p className="text-gray-400">{celebration.description}</p>
-                <p className="text-gray-600 font-medium flex items-center mt-10">
-                  <Clock className="h-4 w-4 text-secondary mr-2" />
-                  {celebration.schedule}
-                </p>
               </motion.div>
             ))}
           </div>
@@ -195,4 +133,4 @@ const MassSchedulePage = () => {
   );
 };
 
-export default MassSchedulePage;
+export default ChapelsPage;

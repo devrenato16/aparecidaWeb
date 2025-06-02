@@ -33,13 +33,18 @@ export interface FormData extends DocumentData {
   groupParticipation: string;
   isBaptized: "sim" | "nao";
   firstEucharist: "sim" | "nao";
-  specialNeeds: string;
+  specialNeeds: "sim" | "nao";
   maritalStatus: "casado" | "moraJunto" | "solteiro";
   availableTime: string;
   jesusAnswer: string;
   godfatherName: string;
   godmotherName: string;
   availableLocate: string;
+  meetingDate: string;
+  baptismDate: string;
+  avaiableDay: string;
+  therm: string;
+  
 }
 
 // Add a new registration

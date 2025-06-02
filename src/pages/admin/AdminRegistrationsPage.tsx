@@ -21,6 +21,10 @@ import { generateBatismPDF } from "../../utils/generateBatismPDF";
 const AdminRegistrationsPage = () => {
   const navigate = useNavigate();
   const [registrations, setRegistrations] = useState<FormData[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [registrationToDelete, setRegistrationToDelete] = useState<
+    string | null
+  >(null);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [selectedRegistration, setSelectedRegistration] =
@@ -44,23 +48,8 @@ const AdminRegistrationsPage = () => {
   };
 
   const handleDeleteRegistration = async (id: string) => {
-    if (!window.confirm("Tem certeza que deseja excluir esta inscrição?"))
-      return;
-    try {
-      const result = await deleteRegistration(id);
-      if (result.success) {
-        toast.success("Inscrição excluída com sucesso!");
-        setRegistrations((prev) => prev.filter((reg) => reg.id !== id));
-        if (selectedRegistration?.id === id) {
-          setSelectedRegistration(null);
-        }
-      } else {
-        toast.error("Erro ao excluir inscrição");
-      }
-    } catch (error) {
-      console.error("Error deleting registration:", error);
-      toast.error("Erro ao excluir inscrição");
-    }
+    setRegistrationToDelete(id);
+    setIsDeleteModalOpen(true);
   };
 
   // Funções de formatação dos dados
@@ -82,11 +71,18 @@ const AdminRegistrationsPage = () => {
       sab_9h30: "Sábado, 9h30 - 11h00",
       sab_11h30: "Sábado, 11h30 - 13h00",
       sab_15h00: "Sábado, 15h00 - 16h30",
-      matriz: "Matriz de Aparecida",
-      capSaoPedro: "Capela São Pedro e São Paulo",
-      capSaoSebastiao: "Capela São Sebastião",
     };
     return options[time as keyof typeof options] || time || "Não informado";
+  };
+  const formatAvailableDay = (day: string): string => {
+    const options = {
+      matriz_7h30: "Matriz de Aparecida, 7h30 - 9h00",
+      matriz_11h30: "Matriz de Aparecida, 9h30 - 11h00",
+      matriz_13h00: "Matriz de Aparecida, 13h00 - 15h00",
+      cap_8h00: "Capela São Sebastião, 8h00 - 10h00",
+      cap_16h00: "Capela São Pedro e São Paulo, 16h00 - 18h00",
+    };
+    return options[day as keyof typeof options] || day || "Não informado";
   };
 
   const formatAvailableLocate = (locate: string): string => {
@@ -216,9 +212,7 @@ const AdminRegistrationsPage = () => {
                       <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
                         Nome
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        E-mail
-                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider"></th>
                       <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
                         Telefone
                       </th>
@@ -364,7 +358,7 @@ const AdminRegistrationsPage = () => {
                     </p>
                   </div>
                 )}
-                {/* Campos Específicos do Crisma Adulto */}
+
                 <div>
                   <h4 className="text-sm font-semibold text-primary-800 mb-1">
                     Nome do Pai
@@ -449,8 +443,24 @@ const AdminRegistrationsPage = () => {
                       Possui alguma necessidade especial?
                     </h4>
                     <p className="text-gray-800">
-                      {selectedRegistration.specialNeeds || "Não informado"}
+                      {selectedRegistration.specialNeeds === "sim"
+                        ? "Sim"
+                        : selectedRegistration.specialNeeds === "nao"
+                        ? "Não"
+                        : "Não informado"}
                     </p>
+
+                    {selectedRegistration.specialNeeds === "sim" && (
+                      <div className="mt-5">
+                        <h5 className="text-sm font-semibold text-primary-800">
+                          Qual?
+                        </h5>
+                        <p className="text-gray-800">
+                          {selectedRegistration.specialNeedsDetails ||
+                            "Não informado"}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
                 {selectedRegistration.formType !== "catecismo" &&
@@ -466,13 +476,47 @@ const AdminRegistrationsPage = () => {
                       </p>
                     </div>
                   )}
-                {selectedRegistration.formType !== "batismo" && (
+                {selectedRegistration.formType !== "batismo" &&
+                  selectedRegistration.formType !== "catecismo" && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                        Horário
+                      </h4>
+                      <p className="text-gray-800">
+                        {formatAvailableTime(
+                          selectedRegistration.availableTime
+                        )}
+                      </p>
+                    </div>
+                  )}
+                {selectedRegistration.formType !== "batismo" &&
+                  selectedRegistration.formType === "catecismo" && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                        Horário
+                      </h4>
+                      <p className="text-gray-800">
+                        {formatAvailableDay(selectedRegistration.availableDay)}
+                      </p>
+                    </div>
+                  )}
+                {selectedRegistration.formType === "batismo" && (
                   <div>
                     <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                      Horário
+                      Nome da Madrinha
                     </h4>
                     <p className="text-gray-800">
-                      {formatAvailableTime(selectedRegistration.availableTime)}
+                      {selectedRegistration.godmotherName || "Não informado"}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType === "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Nome do Padrinho
+                    </h4>
+                    <p className="text-gray-800">
+                      {selectedRegistration.godfatherName || "Não informado"}
                     </p>
                   </div>
                 )}
@@ -487,6 +531,36 @@ const AdminRegistrationsPage = () => {
                             selectedRegistration.availableLocate
                           )
                         : "Não informado"}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType === "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Data do Batismo
+                    </h4>
+                    <p className="text-primary-800 text-sm">
+                      {formatDateOfBirth(selectedRegistration.baptismDate)}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType === "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Data da Reunião
+                    </h4>
+                    <p className="text-primary-800 text-sm">
+                      {formatDateOfBirth(selectedRegistration.meetingDate)}
+                    </p>
+                  </div>
+                )}
+                {selectedRegistration.formType === "batismo" && (
+                  <div>
+                    <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                      Observações
+                    </h4>
+                    <p className="text-gray-800">
+                      {selectedRegistration.observations || "Não informado"}
                     </p>
                   </div>
                 )}
@@ -551,6 +625,68 @@ const AdminRegistrationsPage = () => {
               >
                 Excluir
               </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+      {/* Modal de Confirmação de Exclusão */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-lg shadow-elevation-3 w-full max-w-md"
+          >
+            <div className="p-6 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-primary-800">
+                Confirmar Exclusão
+              </h3>
+            </div>
+            <div className="p-6">
+              <p className="text-gray-700 mb-6">
+                Tem certeza que deseja excluir esta inscrição? Esta ação não
+                pode ser desfeita.
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setIsDeleteModalOpen(false)}
+                  className="btn btn-outline"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={async () => {
+                    if (!registrationToDelete) return;
+
+                    try {
+                      const result = await deleteRegistration(
+                        registrationToDelete
+                      );
+                      if (result.success) {
+                        toast.success("Inscrição excluída com sucesso!");
+                        setRegistrations((prev) =>
+                          prev.filter((reg) => reg.id !== registrationToDelete)
+                        );
+                        if (selectedRegistration?.id === registrationToDelete) {
+                          setSelectedRegistration(null);
+                        }
+                      } else {
+                        toast.error("Erro ao excluir inscrição");
+                      }
+                    } catch (error) {
+                      console.error("Error deleting registration:", error);
+                      toast.error("Erro ao excluir inscrição");
+                    } finally {
+                      setIsDeleteModalOpen(false);
+                      setRegistrationToDelete(null);
+                    }
+                  }}
+                  className="btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500"
+                >
+                  Excluir
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>

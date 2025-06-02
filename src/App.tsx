@@ -17,6 +17,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 // Admin Pages
 import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
 import AdminRegistrationsPage from "./pages/admin/AdminRegistrationsPage";
+import ChapelsPage from "./pages/ChapelsPage";
 
 function App() {
   const location = useLocation();
@@ -39,6 +40,7 @@ function App() {
           <Route path="/inscricoes" element={<RegistrationPage />} />
           <Route path="/dizimo" element={<TithePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/capelas" element={<ChapelsPage />} />
 
           {/* Protected Admin Routes */}
           <Route
