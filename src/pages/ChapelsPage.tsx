@@ -46,7 +46,7 @@ const ChapelsPage = () => {
         <title>Horários | Paróquia de Aparecida</title>
         <meta
           name="description"
-          content="Confira os horários de capelass, confissões e eventos na Paróquia de Aparecida."
+          content="Confira os horários de capelas, confissões e eventos na Paróquia de Aparecida."
         />
       </Helmet>
 
@@ -58,7 +58,7 @@ const ChapelsPage = () => {
 
       <section className="section">
         <div className="container-custom">
-          <SectionTitle title="capelass Semanais" center />
+          <SectionTitle title="Missas Semanais" center />
 
           <motion.div
             initial={{ opacity: 0 }}
