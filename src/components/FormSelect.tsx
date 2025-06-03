@@ -26,7 +26,7 @@ export const FormSelect = ({
       <select
         id={name}
         {...register(name)}
-        className="w-full p-2 border border-gray-300 rounded"
+        className="w-full p-2.5 border border-gray-300 rounded"
       >
         <option value="">Selecione</option>
         {options.map((option) => (

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import { PlusCircle, Flame } from "lucide-react";
+import { PlusCircle, Flame, HeartHandshakeIcon } from "lucide-react";
 import toast from "react-hot-toast";
 
 import Hero from "../components/Hero";
@@ -18,12 +18,14 @@ import { CrismaJovemForm } from "../components/CrismaForm";
 
 import { CatequeseForm } from "../components/CatequeseForm";
 import { CrismaAdultoForm } from "../components/CrismaAdultoForm";
+import { DizimistaForm } from "../components/DizimistaForm";
 
 type RegistrationType =
   | "batismo"
   | "catecismo"
   | "crismaJovem"
-  | "crismaAdulto";
+  | "crismaAdulto"
+  | "dizimista";
 
 interface RegistrationFormData {
   name: string;
@@ -105,6 +107,12 @@ const RegistrationPage = () => {
       icon: <Flame className="h-8 w-8" />,
       description:
         "Para adultos que ainda não receberam o Sacramento da Crisma.",
+    },
+    {
+      id: "dizimista",
+      title: "Ser um dizimista",
+      icon: <HeartHandshakeIcon className="h-8 w-8" />,
+      description: "Um gesto concreto de amor e doação para Evangelização.",
     },
   ];
 
@@ -206,6 +214,13 @@ const RegistrationPage = () => {
 
                       {activeForm === "crismaAdulto" && (
                         <CrismaAdultoForm
+                          register={register}
+                          control={control}
+                          errors={errors}
+                        />
+                      )}
+                      {activeForm === "dizimista" && (
+                        <DizimistaForm
                           register={register}
                           control={control}
                           errors={errors}
