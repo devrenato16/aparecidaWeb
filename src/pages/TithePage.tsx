@@ -14,6 +14,9 @@ import Card from "../components/Card";
 
 import hands from "../assets/hands.webp";
 
+import MassSchedulePage from "./MassSchedulePage";
+import { Link } from "react-router-dom";
+
 const TithePage = () => {
   return (
     <>
@@ -324,9 +327,9 @@ const TithePage = () => {
                 </p>
 
                 <div className="flex flex-wrap justify-center gap-4 mt-6">
-                  <a href="#" className="btn btn-secondary">
-                    Cadastre-se como Dizimista
-                  </a>
+                  <Link to="/inscricoes" className="btn btn-secondary">
+                    Seja um bem feitor
+                  </Link>
                 </div>
               </div>
             </motion.div>

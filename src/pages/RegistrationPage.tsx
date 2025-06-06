@@ -9,7 +9,7 @@ import Hero from "../components/Hero";
 import SectionTitle from "../components/SectionTitle";
 import Card from "../components/Card";
 
-import { addRegistration } from "../firebase/firestore";
+import { addDizimista, addRegistration } from "../firebase/firestore";
 
 import sacramentos from "../assets/sacramentos.webp";
 import { PiHandsPrayingBold } from "react-icons/pi";
@@ -59,10 +59,19 @@ const RegistrationPage = () => {
     setLoading(true);
 
     try {
-      const result = await addRegistration({
-        ...data,
-        formType: activeForm,
-      });
+      let result;
+
+      if (activeForm === "dizimista") {
+        result = await addDizimista({
+          ...data,
+          formType: activeForm,
+        });
+      } else {
+        result = await addRegistration({
+          ...data,
+          formType: activeForm,
+        });
+      }
 
       if (result.success) {
         toast.success("Inscrição realizada com sucesso!");

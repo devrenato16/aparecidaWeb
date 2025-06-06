@@ -149,14 +149,72 @@ export const getSiteSettings = async () => {
   }
 };
 
-// Update site settings
-export const updateSiteSettings = async (data: DocumentData) => {
+// ===================== DIZIMISTAS =====================
+
+export interface Dizimista extends DocumentData {
+  id: string;
+  fullName: string;
+  phone: string;
+  birthdate: string;
+  availableSex: string;
+  availableState: string;
+  address: string;
+  community: string;
+  createdAt: string;
+}
+
+// Adiciona um novo dizimista
+export const addDizimista = async (data: Omit<Dizimista, 'id' | 'createdAt'>) => {
   try {
-    const docRef = doc(firestore, 'settings', 'siteSettings');
+    const dizimistasRef = collection(firestore, 'dizimistas');
+    const docRef = await addDoc(dizimistasRef, {
+      ...data,
+      createdAt: Timestamp.now()
+    });
+    return { success: true, id: docRef.id };
+  } catch (error) {
+    console.error('Erro ao adicionar dizimista:', error);
+    return { success: false, error };
+  }
+};
+
+// Busca todos os dizimistas
+export const getDizimistas = async () => {
+  try {
+    const dizimistasRef = collection(firestore, 'dizimistas');
+    const q = query(dizimistasRef, orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Dizimista[];
+  } catch (error) {
+    console.error('Erro ao buscar dizimistas:', error);
+    return [];
+  }
+};
+
+// Atualiza um dizimista
+export const updateDizimista = async (id: string, data: Partial<Dizimista>) => {
+  try {
+    const docRef = doc(firestore, 'dizimistas', id);
     await updateDoc(docRef, data);
     return { success: true };
   } catch (error) {
-    console.error('Error updating site settings:', error);
+    console.error('Erro ao atualizar dizimista:', error);
+    return { success: false, error };
+  }
+};
+
+// Exclui um dizimista
+export const deleteDizimista = async (id: string) => {
+  try {
+    const docRef = doc(firestore, 'dizimistas', id);
+    await deleteDoc(docRef);
+    return { success: true };
+  } catch (error) {
+    console.error('Erro ao excluir dizimista:', error);
     return { success: false, error };
   }
 };

@@ -18,6 +18,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
 import AdminRegistrationsPage from "./pages/admin/AdminRegistrationsPage";
 import ChapelsPage from "./pages/ChapelsPage";
+import AdminDizimistasPage from "./pages/admin/AdminDizimistasPage";
 
 function App() {
   const location = useLocation();
@@ -56,6 +57,14 @@ function App() {
             element={
               <ProtectedRoute adminOnly>
                 <AdminRegistrationsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/dizimistas"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminDizimistasPage />
               </ProtectedRoute>
             }
           />
