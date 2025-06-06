@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Trash2, Eye, X } from "lucide-react";
+
+import { ArrowLeft, Trash2, Eye, X, Calendar, Filter } from "lucide-react";
 import toast from "react-hot-toast";
 
 // Componentes e utils do seu projeto
 import SectionTitle from "../../components/SectionTitle";
 import { getDizimistas, deleteDizimista } from "../../firebase/firestore"; // Funções personalizadas
-import { formatBirthDate, formatDate } from "../../utils/dateUtils";
+import { formatBirthDate, formatDate, parseDate } from "../../utils/dateUtils";
 import { generateDizimistasPDF } from "../../utils/generateDizimistasPDF";
 
 // Interface do dizimista (ajuste conforme seus dados)
@@ -35,6 +36,21 @@ const AdminDizimistasPage = () => {
   const [selectedDizimista, setSelectedDizimista] = useState<Dizimista | null>(
     null
   );
+  const [filterDate, setFilterDate] = useState<string>("");
+
+  const filteredDizimistas = filterDate
+    ? dizimistas.filter((dizimista) => {
+        const registrationDate = parseDate(dizimista.createdAt);
+
+        if (!registrationDate) return false;
+
+        const formattedRegistrationDate = registrationDate
+          .toISOString()
+          .split("T")[0];
+
+        return formattedRegistrationDate === filterDate;
+      })
+    : dizimistas;
 
   useEffect(() => {
     fetchDizimistas();
@@ -105,18 +121,35 @@ const AdminDizimistasPage = () => {
               <span>Voltar</span>
             </button>
           </div>
+
           <SectionTitle
             title="Gerenciar Dizimistas"
             subtitle="Visualize ou exclua os dizimistas cadastrados"
             className="mb-0"
             center
           />
+          <div className="p-4 bg-gray-50 border-b border-gray-200 flex flex-wrap justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Filter className="h-5 w-5 text-primary-800" />
+              <span className="text-sm font-semibold text-gray-600">
+                Filtrar por:
+              </span>
+              <div className="relative max-w-xs">
+                <input
+                  type="date"
+                  value={filterDate}
+                  onChange={(e) => setFilterDate(e.target.value)}
+                  className="w-full px-3 py-1 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 text-sm"
+                />
+              </div>
+            </div>
+          </div>
           <div className="bg-white rounded-lg shadow-elevation-1 overflow-hidden">
             {loading ? (
               <div className="flex justify-center p-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
               </div>
-            ) : dizimistas.length === 0 ? (
+            ) : filteredDizimistas.length === 0 ? (
               <div className="text-center p-12">
                 <p className="text-primary-800">Nenhum dizimista encontrado</p>
               </div>
@@ -124,24 +157,27 @@ const AdminDizimistasPage = () => {
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Nome
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Telefone
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Comunidade
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Data Cadastro
-                      </th>
-                      <th className="px-6 py-3 text-right text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Ações
-                      </th>
-                    </tr>
+                    {filteredDizimistas.map((dizimistas) => (
+                      <tr key={dizimistas.id} className="hover: bg-gray-50">
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Nome
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Telefone
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Comunidade
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Data Cadastro
+                        </th>
+                        <th className="px-6 py-3 text-right text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Ações
+                        </th>
+                      </tr>
+                    ))}
                   </thead>
+
                   <tbody className="bg-white divide-y divide-gray-200">
                     {dizimistas.map((dizimista) => (
                       <tr key={dizimista.id} className="hover:bg-gray-50">

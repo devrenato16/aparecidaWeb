@@ -35,3 +35,22 @@ export function formatBirthDate(dateString: string): string {
 
   return date.toLocaleDateString('pt-BR');
 }
+
+// src/utils/dateUtils.ts
+export function parseDate(value: any): Date | null {
+  if (!value) return null;
+
+  let date: Date;
+
+  if (value instanceof Date) {
+    date = value;
+  } else if (typeof value?.toDate === "function") {
+    date = value.toDate(); // Para Timestamp do Firebase
+  } else if (typeof value === "string" || typeof value === "number") {
+    date = new Date(value);
+  } else {
+    return null;
+  }
+
+  return isNaN(date.getTime()) ? null : date;
+}
