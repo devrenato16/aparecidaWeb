@@ -45,12 +45,15 @@ export function parseDate(value: any): Date | null {
   if (value instanceof Date) {
     date = value;
   } else if (typeof value?.toDate === "function") {
-    date = value.toDate(); // Para Timestamp do Firebase
+    date = value.toDate();
   } else if (typeof value === "string" || typeof value === "number") {
     date = new Date(value);
   } else {
     return null;
   }
 
-  return isNaN(date.getTime()) ? null : date;
+  if (isNaN(date.getTime())) return null;
+
+  // Retorna nova Date só com ano, mês e dia (zero hora UTC)
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
 }
