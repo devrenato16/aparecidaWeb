@@ -13,8 +13,9 @@ import SectionTitle from "../components/SectionTitle";
 import Card from "../components/Card";
 
 import hands from "../assets/hands.webp";
+import oferta from "../assets/oferta.webp"
 
-import MassSchedulePage from "./MassSchedulePage";
+
 import { Link } from "react-router-dom";
 
 const TithePage = () => {
@@ -79,9 +80,9 @@ const TithePage = () => {
               viewport={{ once: true }}
             >
               <img
-                src="https://images.pexels.com/photos/936722/pexels-photo-936722.jpeg"
+                src={oferta}
                 alt="Mãos em gesto de partilha"
-                className="w-full h-auto rounded-lg shadow-elevation-2"
+                className="w-96 h-auto rounded-lg shadow-elevation-2"
               />
             </motion.div>
           </div>

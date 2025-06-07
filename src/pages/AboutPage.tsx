@@ -6,6 +6,7 @@ import SectionTitle from "../components/SectionTitle";
 import basilica from "../assets/basilica.webp";
 import altar from "../assets/altar.webp";
 import Location from "../components/LocationSection";
+import video from "../assets/video.mp4"
 
 const AboutPage = () => {
   return (
@@ -66,10 +67,12 @@ const AboutPage = () => {
               viewport={{ once: true }}
               className="rounded-lg overflow-hidden shadow-elevation-2"
             >
-              <img
-                src={altar}
-                alt="História da Paróquia"
-                className="w-full h-full object-cover"
+              <video
+                src={video}
+                controls
+                autoPlay
+                loop
+                className="w-full h-96 object-cover"
               />
             </motion.div>
           </div>
