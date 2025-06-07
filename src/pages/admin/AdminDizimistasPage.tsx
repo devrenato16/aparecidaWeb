@@ -157,7 +157,7 @@ const AdminDizimistasPage = () => {
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
-                    {filteredDizimistas.map((dizimistas) => (
+                    
                       <tr key={dizimistas.id} className="hover: bg-gray-50">
                         <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
                           Nome
@@ -175,11 +175,12 @@ const AdminDizimistasPage = () => {
                           Ações
                         </th>
                       </tr>
-                    ))}
+                    
                   </thead>
 
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {dizimistas.map((dizimista) => (
+                    {filteredDizimistas.map((dizimistas) => (
+                    
                       <tr key={dizimista.id} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-semibold text-gray-900">
