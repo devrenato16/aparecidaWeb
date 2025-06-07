@@ -607,7 +607,45 @@ const AdminRegistrationsPage = () => {
                     </div>
                   )}
               </div>
+              {selectedRegistration.formType !== "batismo" &&
+                selectedRegistration.formType !== "catecismo" && (
+                  <div className="md:col-span-2 mt-4">
+                    <h4 className="text-sm font-semibold text-primary-800 mb-2">
+                      Termo de Compromisso
+                    </h4>
+                    <p className="text-gray-800 leading-relaxed">
+                      Eu,{" "}
+                      <strong>
+                        {selectedRegistration.name ||
+                          selectedRegistration.fullName}
+                      </strong>
+                      , comprometo-me a participar dos ENCONTROS DE FORMAÇÕES
+                      NECESSÁRIOS PARA RECEBER O SACRAMENTO DA CRISMA E
+                      PARTICIPAR DA MISSA DOMINICAL e estou consciente que
+                      faltando a esses COMPROMISSOS, NÃO poderei ser crismado(a)
+                    </p>
+                  </div>
+                )}
+              {selectedRegistration.formType === "catecismo" && (
+                <div className="md:col-span-2 mt-4">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-2">
+                    Termo de Compromisso
+                  </h4>
+                  <p className="text-gray-800 leading-relaxed">
+                    Eu,{" "}
+                    <strong>
+                      {selectedRegistration.motherName ||
+                        selectedRegistration.fatherName}
+                    </strong>
+                    , comprometo-me a participar dos ENCONTROS DE FORMAÇÕES
+                    NECESSÁRIOS PARA RECEBER O SACRAMENTO DA CRISMA E PARTICIPAR
+                    DA MISSA DOMINICAL e estou consciente que faltando a esses
+                    COMPROMISSOS, NÃO poderei ser crismado(a)
+                  </p>
+                </div>
+              )}
             </div>
+
             <div className="p-6 border-t border-gray-200 flex justify-end space-x-4">
               <button
                 onClick={() => setSelectedRegistration(null)}

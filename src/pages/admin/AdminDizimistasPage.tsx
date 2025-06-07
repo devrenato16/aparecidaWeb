@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import { ArrowLeft, Trash2, Eye, X, Calendar, Filter } from "lucide-react";
+import { ArrowLeft, Trash2, Eye, X, Filter } from "lucide-react";
 import toast from "react-hot-toast";
 
 // Componentes e utils do seu projeto
@@ -40,16 +40,16 @@ const AdminDizimistasPage = () => {
 
   const filteredDizimistas = filterDate
     ? dizimistas.filter((dizimista) => {
-      const registrationDate = parseDate(dizimista.createdAt);
+        const registrationDate = parseDate(dizimista.createdAt);
 
-      if (!registrationDate) return false;
+        if (!registrationDate) return false;
 
-      const formattedRegistrationDate = registrationDate
-        .toISOString()
-        .split("T")[0];
+        const formattedRegistrationDate = registrationDate
+          .toISOString()
+          .split("T")[0];
 
-      return formattedRegistrationDate === filterDate;
-    })
+        return formattedRegistrationDate === filterDate;
+      })
     : dizimistas;
 
   useEffect(() => {
@@ -157,7 +157,6 @@ const AdminDizimistasPage = () => {
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
-
                     <tr className="hover: bg-gray-50">
                       <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
                         Nome
@@ -175,7 +174,6 @@ const AdminDizimistasPage = () => {
                         Ações
                       </th>
                     </tr>
-
                   </thead>
 
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -324,8 +322,9 @@ const AdminDizimistasPage = () => {
                 onClick={() => {
                   if (!selectedDizimista) return;
 
-                  const filename = `Dizimista_${selectedDizimista.fullName}_${new Date().toISOString().split("T")[0]
-                    }.pdf`;
+                  const filename = `Dizimista_${selectedDizimista.fullName}_${
+                    new Date().toISOString().split("T")[0]
+                  }.pdf`;
 
                   generateDizimistasPDF(selectedDizimista, filename);
                 }}
