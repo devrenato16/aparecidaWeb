@@ -8,6 +8,7 @@ import {
   ChevronRight,
   PlusCircle,
   Flame,
+  HeartHandshake,
 } from "lucide-react";
 
 import { useAuth } from "../../contexts/AuthContext";
@@ -72,6 +73,20 @@ const AdminDashboardPage = () => {
       description: "Gerenciar todas as inscrições recebidas",
       icon: <FileText className="h-6 w-6" />,
       link: "/admin/registrations",
+      color: "bg-blue-500",
+    },
+    {
+      name: "Dizimistas",
+      description: "Gerenciar todas as inscrições recebidas",
+      icon: <HeartHandshake className="h-6 w-6" />,
+      link: "/admin/dizimistas",
+      color: "bg-green-700",
+    },
+    {
+      name: "Intenções",
+      description: "Gerenciar todas as inscrições recebidas",
+      icon: <FileText className="h-6 w-6" />,
+      link: "/admin/",
       color: "bg-blue-500",
     },
   ];
