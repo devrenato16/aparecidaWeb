@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import { formatBirthDate } from './dateUtils';
 
-export const generatePDF = (registration: any, filename: string) => {
+export const generateCrismaJovemPDF = (registration: any, filename: string) => {
   const doc = new jsPDF('p', 'mm', 'a4');
 
   // Configurações do documento
@@ -10,16 +10,31 @@ export const generatePDF = (registration: any, filename: string) => {
   let y = 30; // Posição inicial vertical
 
   // Função auxiliar para formatar data
-  const formatDate = (date: Date | { seconds: number } | string) => {
-    if (!date) return 'Data inválida';
-    if (typeof date === 'string') {
-      const d = new Date(date);
-      return isNaN(d.getTime()) ? 'Data inválida' : d.toLocaleDateString('pt-BR');
-    }
-    if (date instanceof Date) return date.toLocaleDateString('pt-BR');
-    return new Date(date.seconds * 1000).toLocaleDateString('pt-BR');
-  };
+  const formatDate = (date: any): string => {
+  let parsedDate: Date;
 
+  if (date instanceof Date) {
+    parsedDate = date;
+  } else if (typeof date === "string") {
+    parsedDate = new Date(date);
+  } else if (typeof date === "number") {
+    parsedDate = new Date(date * 1000); // timestamp em segundos
+  } else if (date && typeof date === "object" && "seconds" in date) {
+    parsedDate = new Date(date.seconds * 1000); // Firebase Timestamp-like
+  } else {
+    return "Data inválida";
+  }
+
+  if (!(parsedDate instanceof Date) || isNaN(parsedDate.getTime())) {
+    return "Data inválida";
+  }
+
+  const day = String(parsedDate.getDate()).padStart(2, "0");
+  const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+  const year = parsedDate.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
   // Mapeamentos
   const schoolingMap: Record<string, string> = {
     fundamental_incompleto: 'Ensino Fundamental Incompleto',
@@ -28,9 +43,6 @@ export const generatePDF = (registration: any, filename: string) => {
     medio_completo: 'Ensino Médio Completo',
     superior_incompleto: 'Ensino Superior Incompleto',
     superior_completo: 'Ensino Superior Completo',
-    pos_graduacao: 'Pós-graduação',
-    mestrado: 'Mestrado',
-    doutorado: 'Doutorado',
   };
 
   const maritalStatusMap: Record<string, string> = {
@@ -38,6 +50,11 @@ export const generatePDF = (registration: any, filename: string) => {
     moraJunto: 'Mora junto',
     solteiro: 'Solteiro(a)',
   };
+
+  const specialNeedsMap: Record<string, string> = {
+    sim: "Sim",
+    nao: "Não"
+  }
 
   const timeMap: Record<string, string> = {
     sab_9h30: "Sábado, 9h30 - 11h00",
@@ -101,16 +118,26 @@ export const generatePDF = (registration: any, filename: string) => {
     registration.firstEucharist === "sim" ? "Sim" : "Não"
   );
 
-  // Campo "Possui necessidade especial?"
-  const specialNeedsValue = registration.specialNeeds || "Não informado";
-  const splitSpecialNeeds = doc.splitTextToSize(specialNeedsValue, 170); // Quebra automática
+  addField(
+  "Necessidade especial",
+  specialNeedsMap[registration.specialNeeds] || "Não informado"
+);
+
+// Se for "sim", adiciona o campo "Qual?"
+if (registration.specialNeeds === "sim") {
+  const description = registration.specialNeedsDetails || "Não informado";
+  const splitDescription = doc.splitTextToSize(description, 170);
+
   doc.setFont("helvetica", "bold");
-  doc.text("Possui necessidade especial?:", margin, y);
+  doc.text("Qual?:", margin, y);
   doc.setFont("helvetica", "normal");
-  splitSpecialNeeds.forEach((line, index) => {
-    doc.text(line, margin + 52, y + index * 7); // Adiciona linha por linha
+
+  splitDescription.forEach((line, index) => {
+    doc.text(line, margin + 50, y + index * 7);
   });
-  y += 7 * splitSpecialNeeds.length; // Ajusta y com base no número de linhas
+
+  y += 7 * splitDescription.length;
+}
 
   addField(
     "Estado Civil",
@@ -146,12 +173,13 @@ export const generatePDF = (registration: any, filename: string) => {
 
 
   // Data da Inscrição
-  y += 5;
-  const today = new Date().toLocaleDateString('pt-BR');
-  doc.setFont("helvetica", "bold");
-  doc.text("Data da Incrição:", pageWidth - margin - 50, y);
-  doc.setFont("helvetica", "normal");
-  doc.text(today, pageWidth - margin, y, {align:"right"});
+y += 15;
+const dataInscricao = formatDate(registration.createdAt);
+
+doc.setFont("helvetica", "bold");
+doc.text("Data da Inscrição:", pageWidth - margin - 50, y);
+doc.setFont("helvetica", "normal");
+doc.text(dataInscricao, pageWidth - margin, y, { align: "right" });
 
   // Rodapé
   y = 280;

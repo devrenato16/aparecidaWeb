@@ -12,11 +12,13 @@ import {
   deleteRegistration,
   FormData,
 } from "../../firebase/firestore";
-import { generatePDF } from "../../utils/gereneratePDF";
+
 import { generateCatequesePDF } from "../../utils/generateCatequesePDF";
 
 import { formatBirthDate, formatDate } from "../../utils/dateUtils";
 import { generateBatismPDF } from "../../utils/generateBatismPDF";
+import { generateCrismaAdultoPDF } from "../../utils/generateCrismaAdultoPDF";
+import { generateCrismaJovemPDF } from "../../utils/gerenerateCrismaJovemPDF";
 
 const AdminRegistrationsPage = () => {
   const navigate = useNavigate();
@@ -71,6 +73,7 @@ const AdminRegistrationsPage = () => {
       sab_9h30: "Sábado, 9h30 - 11h00",
       sab_11h30: "Sábado, 11h30 - 13h00",
       sab_15h00: "Sábado, 15h00 - 16h30",
+      sexta_19h30: "Sexta-Feira, 19h30 - 21h00",
     };
     return options[time as keyof typeof options] || time || "Não informado";
   };
@@ -94,6 +97,21 @@ const AdminRegistrationsPage = () => {
     return options[locate as keyof typeof options] || locate || "Não informado";
   };
 
+  const formatSchooling = (schooling: string): string => {
+    const options = {
+      fundamental_incompleto: "Ensino Fundamental Incompleto",
+      fundamental_completo: "Ensino Fundamental Completo",
+      medio_incompleto: "Ensino Médio Incompleto",
+      medio_completo: "Ensino Médio Completo",
+      superior_incompleto: "Ensino Superior Incompleto",
+      superior_completo: "Ensino Superior Completo",
+      pos_graduacao: "Pós-graduação",
+      mestrado: "Mestrado",
+      doutorado: "Doutorado",
+    };
+    return options[schooling as keyof typeof options] || "Não informado";
+  };
+
   const formatDateOfBirth = (date: string): string => {
     return formatBirthDate(date) || "Não informado";
   };
@@ -101,7 +119,7 @@ const AdminRegistrationsPage = () => {
   const formTypeLabels = {
     batismo: "Batismo",
     catecismo: "Catecismo",
-    crisma: "Crisma Jovem",
+    crismaJovem: "Crisma Jovem",
     crismaAdulto: "Crisma Adulto",
   };
 
@@ -386,16 +404,28 @@ const AdminRegistrationsPage = () => {
                     </p>
                   </div>
                 )}
-                {selectedRegistration.formType !== "batismo" && (
+                {selectedRegistration.formType !== "batismo" &&
+                  selectedRegistration.formType !== "catecismo" && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                        Escolaridade
+                      </h4>
+                      <p className="text-gray-800">
+                        {formatSchooling(selectedRegistration.schooling)}
+                      </p>
+                    </div>
+                  )}
+                {selectedRegistration.formType === "catecismo" && (
                   <div>
                     <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                      Escolaridade
+                      Série Escolar
                     </h4>
                     <p className="text-gray-800">
                       {selectedRegistration.schooling || "Não informado"}
                     </p>
                   </div>
                 )}
+
                 {selectedRegistration.formType !== "catecismo" &&
                   selectedRegistration.formType !== "batismo" && (
                     <div>
@@ -577,7 +607,45 @@ const AdminRegistrationsPage = () => {
                     </div>
                   )}
               </div>
+              {selectedRegistration.formType !== "batismo" &&
+                selectedRegistration.formType !== "catecismo" && (
+                  <div className="md:col-span-2 mt-4">
+                    <h4 className="text-sm font-semibold text-primary-800 mb-2">
+                      Termo de Compromisso
+                    </h4>
+                    <p className="text-gray-800 leading-relaxed">
+                      Eu,{" "}
+                      <strong>
+                        {selectedRegistration.name ||
+                          selectedRegistration.fullName}
+                      </strong>
+                      , comprometo-me a participar dos ENCONTROS DE FORMAÇÕES
+                      NECESSÁRIOS PARA RECEBER O SACRAMENTO DA CRISMA E
+                      PARTICIPAR DA MISSA DOMINICAL e estou consciente que
+                      faltando a esses COMPROMISSOS, NÃO poderei ser crismado(a)
+                    </p>
+                  </div>
+                )}
+              {selectedRegistration.formType === "catecismo" && (
+                <div className="md:col-span-2 mt-4">
+                  <h4 className="text-sm font-semibold text-primary-800 mb-2">
+                    Termo de Compromisso
+                  </h4>
+                  <p className="text-gray-800 leading-relaxed">
+                    Eu,{" "}
+                    <strong>
+                      {selectedRegistration.motherName ||
+                        selectedRegistration.fatherName}
+                    </strong>
+                    , comprometo-me a participar dos ENCONTROS DE FORMAÇÕES
+                    NECESSÁRIOS PARA RECEBER O SACRAMENTO DA CRISMA E PARTICIPAR
+                    DA MISSA DOMINICAL e estou consciente que faltando a esses
+                    COMPROMISSOS, NÃO poderei ser crismado(a)
+                  </p>
+                </div>
+              )}
             </div>
+
             <div className="p-6 border-t border-gray-200 flex justify-end space-x-4">
               <button
                 onClick={() => setSelectedRegistration(null)}
@@ -598,10 +666,10 @@ const AdminRegistrationsPage = () => {
                       generateCatequesePDF(selectedRegistration, filename);
                       break;
                     case "crismaJovem":
-                      generatePDF(selectedRegistration, filename);
+                      generateCrismaJovemPDF(selectedRegistration, filename);
                       break;
                     case "crismaAdulto":
-                      generatePDF(selectedRegistration, filename);
+                      generateCrismaAdultoPDF(selectedRegistration, filename);
                       break;
                     case "batismo":
                       generateBatismPDF(selectedRegistration, filename);
