@@ -1,7 +1,7 @@
 // utils/generateCatequesePDF.ts
 import jsPDF from 'jspdf';
 
-export const generateCatequesePDF = (formData: any, filename: string) => {
+export const generateCatequesePDF = (registration: any, filename: string) => {
   const doc = new jsPDF('p', 'mm', 'a4');
   const pageWidth = doc.internal.pageSize.getWidth();
   const margin = 20;
@@ -33,6 +33,11 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
 
   return `${day}/${month}/${year}`;
 };
+
+const specialNeedsMap: Record<string, string> = {
+    sim: "Sim",
+    nao: "Não"
+  }
 
   const timeMap: Record<string, string> = {
       matriz_7h30: "Matriz de Aparecida, 7h30 - 9h00",
@@ -72,30 +77,41 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
   doc.setFont("helvetica", "normal");
 
   // Campos do formulário
-  addField("Nome completo", formData.name || "Não informado");
-  addField("Data de nascimento", formatDate(formData.birthdate));
-  addField("Telefone do responsável", formData.phone || "Não informado");
-  addField("Nome do Pai", formData.fatherName || "Não informado");
-  addField("Nome da Mãe", formData.motherName || "Não informado");
-  addField("Endereço", formData.address || "Não informado");
-  addField("Comunidade", formData.community || "Não informado");
-  addField("Série Escolar", formData.schooling || "Não informado");
+  addField("Nome completo", registration.name || "Não informado");
+  addField("Data de nascimento", formatDate(registration.birthdate));
+  addField("Telefone do responsável", registration.phone || "Não informado");
+  addField("Nome do Pai", registration.fatherName || "Não informado");
+  addField("Nome da Mãe", registration.motherName || "Não informado");
+  addField("Endereço", registration.address || "Não informado");
+  addField("Comunidade", registration.community || "Não informado");
+  addField("Série Escolar", registration.schooling || "Não informado");
 
-  // Necessidades especiais
-  const specialNeedsValue = formData.specialNeeds === "sim" ? "Sim" : "Não";
-  const splitSpecialNeeds = doc.splitTextToSize(specialNeedsValue, 170);
+// Campo "Possui necessidade especial?"
+addField(
+  "Necessidade especial",
+  specialNeedsMap[registration.specialNeeds] || "Não informado"
+);
+
+// Se for "sim", adiciona o campo "Qual?"
+if (registration.specialNeeds === "sim") {
+  const description = registration.specialNeedsDetails || "Não informado";
+  const splitDescription = doc.splitTextToSize(description, 170);
+
   doc.setFont("helvetica", "bold");
-  doc.text("Possui necessidade especial:", margin, y);
+  doc.text("Qual?:", margin, y);
   doc.setFont("helvetica", "normal");
-  splitSpecialNeeds.forEach((line, index) => {
+
+  splitDescription.forEach((line, index) => {
     doc.text(line, margin + 51, y + index * 7);
   });
-  y += 7 * splitSpecialNeeds.length;
+
+  y += 7 * splitDescription.length;
+}
 
   // Horário disponível
   const dayValue =
-    timeMap[formData.availableDay] ||
-    formData.availableDay ||
+    timeMap[registration.availableDay] ||
+    registration.availableDay ||
     "Não informado";
   addField("Horário Disponível", dayValue);
 
@@ -108,7 +124,7 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
 
-  const termoText = `Eu, ${formData.motherName || "______"}, a observar e motivar a participação do meu filho(a) nos ENCONTROS DE FORMAÇÕES DA CATEQUESE, NECESSÁRIOS PARA O MESMO(A) RECEBER O SACRAMENTO DA PRIMEIRA EUCARISTIA, e estou consciente que faltando a esses COMPROMISSOS, NÃO poderá receber o SACRAMENTO.`;
+  const termoText = `Eu, ${registration.motherName || "______"}, a observar e motivar a participação do meu filho(a) nos ENCONTROS DE FORMAÇÕES DA CATEQUESE, NECESSÁRIOS PARA O MESMO(A) RECEBER O SACRAMENTO DA PRIMEIRA EUCARISTIA, e estou consciente que faltando a esses COMPROMISSOS, NÃO poderá receber o SACRAMENTO.`;
 
   const splitText = doc.splitTextToSize(termoText, 170);
   splitText.forEach((line) => {
@@ -118,7 +134,7 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
 
   // Data da inscrição
 y += 15;
-const dataInscricao = formatDate(formData.createdAt);
+const dataInscricao = formatDate(registration.createdAt);
 
 doc.setFont("helvetica", "bold");
 doc.text("Data da Inscrição:", pageWidth - margin - 50, y);

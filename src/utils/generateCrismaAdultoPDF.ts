@@ -53,6 +53,11 @@ export const generateCrismaAdultoPDF = (registration: any, filename: string) => 
     moraJunto: 'Mora junto',
     solteiro: 'Solteiro(a)',
   };
+   
+  const specialNeedsMap: Record<string, string> = {
+    sim: "Sim",
+    nao: "Não"
+  }
 
   const timeMap: Record<string, string> = {
     sexta_19h30: "Sexta-feira, 19h30 - 21h00" 
@@ -115,15 +120,26 @@ export const generateCrismaAdultoPDF = (registration: any, filename: string) => 
   );
 
   // Campo "Possui necessidade especial?"
-  const specialNeedsValue = registration.specialNeeds || "Não informado";
-  const splitSpecialNeeds = doc.splitTextToSize(specialNeedsValue, 170); // Quebra automática
+addField(
+  "Necessidade especial",
+  specialNeedsMap[registration.specialNeeds] || "Não informado"
+);
+
+// Se for "sim", adiciona o campo "Qual?"
+if (registration.specialNeeds === "sim") {
+  const description = registration.specialNeedsDetails || "Não informado";
+  const splitDescription = doc.splitTextToSize(description, 170);
+
   doc.setFont("helvetica", "bold");
-  doc.text("Possui necessidade especial?:", margin, y);
+  doc.text("Qual?:", margin, y);
   doc.setFont("helvetica", "normal");
-  splitSpecialNeeds.forEach((line, index) => {
-    doc.text(line, margin + 52, y + index * 7); // Adiciona linha por linha
+
+  splitDescription.forEach((line, index) => {
+    doc.text(line, margin + 50, y + index * 7);
   });
-  y += 7 * splitSpecialNeeds.length; // Ajusta y com base no número de linhas
+
+  y += 7 * splitDescription.length;
+}
 
   addField(
     "Estado Civil",

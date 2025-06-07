@@ -119,7 +119,7 @@ const AdminRegistrationsPage = () => {
   const formTypeLabels = {
     batismo: "Batismo",
     catecismo: "Catecismo",
-    crisma: "Crisma Jovem",
+    crismaJovem: "Crisma Jovem",
     crismaAdulto: "Crisma Adulto",
   };
 

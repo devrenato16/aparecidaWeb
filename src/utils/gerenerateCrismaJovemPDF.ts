@@ -118,10 +118,26 @@ export const generateCrismaJovemPDF = (registration: any, filename: string) => {
     registration.firstEucharist === "sim" ? "Sim" : "Não"
   );
 
-  addField (
-    "Necessidade especial",
-    specialNeedsMap[registration.specialNeeds] || "Não informado"
-  );
+  addField(
+  "Necessidade especial",
+  specialNeedsMap[registration.specialNeeds] || "Não informado"
+);
+
+// Se for "sim", adiciona o campo "Qual?"
+if (registration.specialNeeds === "sim") {
+  const description = registration.specialNeedsDetails || "Não informado";
+  const splitDescription = doc.splitTextToSize(description, 170);
+
+  doc.setFont("helvetica", "bold");
+  doc.text("Qual?:", margin, y);
+  doc.setFont("helvetica", "normal");
+
+  splitDescription.forEach((line, index) => {
+    doc.text(line, margin + 50, y + index * 7);
+  });
+
+  y += 7 * splitDescription.length;
+}
 
   addField(
     "Estado Civil",
