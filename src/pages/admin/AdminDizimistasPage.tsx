@@ -157,64 +157,72 @@ const AdminDizimistasPage = () => {
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Nome
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Telefone
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Comunidade
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Data Cadastro
-                      </th>
-                      <th className="px-6 py-3 text-right text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Ações
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredDizimistas.map((dizimista) => (
-                        <tr key={dizimista.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-semibold text-gray-900">
-                              {dizimista.fullName}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-primary-800">{dizimista.phone}</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-primary-800">{dizimista.community}</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-primary-800">
-                            {formatDate(dizimista.createdAt)}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-semibold">
-                            <button
-                              onClick={() => setSelectedDizimista(dizimista)}
-                              className="text-primary-600 hover:text-primary-900 mx-2"
-                              aria-label="Ver detalhes"
-                              >
-                              <Eye className="h-5 w-5" />
-                            </button>
-                            <button
-                              onClick={() => handleDeleteDizimista(dizimista.id)}
-                              className="text-red-600 hover:text-red-900 mx-2"
-                              aria-label="Excluir"
-                              >
-                              <Trash2 className="h-5 w-5" />
-                            </button>
-                          </td>
-                        </tr>
+                    {filteredDizimistas.map((dizimistas) => (
+                      <tr key={dizimistas.id} className="hover: bg-gray-50">
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Nome
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Telefone
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Comunidade
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Data Cadastro
+                        </th>
+                        <th className="px-6 py-3 text-right text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Ações
+                        </th>
+                      </tr>
                     ))}
-                  </table>
-                </div>
-                )}
+                  </thead>
+
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {dizimistas.map((dizimista) => (
+                      <tr key={dizimista.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-semibold text-gray-900">
+                            {dizimista.fullName}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-primary-800">
+                            {dizimista.phone}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-primary-800">
+                            {dizimista.community}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-primary-800">
+                          {formatDate(dizimista.createdAt)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-semibold">
+                          <button
+                            onClick={() => setSelectedDizimista(dizimista)}
+                            className="text-primary-600 hover:text-primary-900 mx-2"
+                            aria-label="Ver detalhes"
+                          >
+                            <Eye className="h-5 w-5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteDizimista(dizimista.id)}
+                            className="text-red-600 hover:text-red-900 mx-2"
+                            aria-label="Excluir"
+                          >
+                            <Trash2 className="h-5 w-5" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
+            )}
           </div>
+        </div>
       </div>
 
       {/* Modal Detalhes do Dizimista */}
