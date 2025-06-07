@@ -100,20 +100,17 @@ export const CrismaJovemForm = ({
         error={errors.schooling}
         options={[
           {
-            value: "Fundamental Incompleto",
+            value: "fundamental_incompleto",
             label: "Ensino Fundamental Incompleto",
           },
           {
-            value: "Fundamental Completo",
+            value: "fundamental_completo",
             label: "Ensino Fundamental Completo",
           },
-          { value: "Médio Incompleto", label: "Ensino Médio Incompleto" },
-          { value: "Médio Completo", label: "Ensino Médio Completo" },
-          { value: "Superior Incompleto", label: "Ensino Superior Incompleto" },
-          { value: "Superior Completo", label: "Ensino Superior Completo" },
-          { value: "Pós Graduacao", label: "Pós-graduação" },
-          { value: "Mestrado", label: "Mestrado" },
-          { value: "Doutorado", label: "Doutorado" },
+          { value: "medio_incompleto", label: "Ensino Médio Incompleto" },
+          { value: "medio_completo", label: "Ensino Médio Completo" },
+          { value: "superior_incompleto", label: "Ensino Superior Incompleto" },
+          { value: "superior_completo", label: "Ensino Superior Completo" },
         ]}
       />
 
@@ -237,7 +234,7 @@ export const CrismaJovemForm = ({
         options={[
           { value: "sab_9h30", label: "Sábado, 9h30 - 11h00" },
           { value: "sab_11h30", label: "Sábado, 11h30 - 13h00" },
-          { value: "sab_ 15h00", label: "Sábado, 15h00 - 16h30" },
+          { value: "sab_15h00", label: "Sábado, 15h00 - 16h30" },
         ]}
         className="md:col-span-2"
       />

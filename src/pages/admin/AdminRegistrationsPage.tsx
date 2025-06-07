@@ -12,11 +12,13 @@ import {
   deleteRegistration,
   FormData,
 } from "../../firebase/firestore";
-import { generatePDF } from "../../utils/gereneratePDF";
+
 import { generateCatequesePDF } from "../../utils/generateCatequesePDF";
 
 import { formatBirthDate, formatDate } from "../../utils/dateUtils";
 import { generateBatismPDF } from "../../utils/generateBatismPDF";
+import { generateCrismaAdultoPDF } from "../../utils/generateCrismaAdultoPDF";
+import { generateCrismaJovemPDF } from "../../utils/gerenerateCrismaJovemPDF";
 
 const AdminRegistrationsPage = () => {
   const navigate = useNavigate();
@@ -71,6 +73,7 @@ const AdminRegistrationsPage = () => {
       sab_9h30: "Sábado, 9h30 - 11h00",
       sab_11h30: "Sábado, 11h30 - 13h00",
       sab_15h00: "Sábado, 15h00 - 16h30",
+      sexta_19h30: "Sexta-Feira, 19h30 - 21h00",
     };
     return options[time as keyof typeof options] || time || "Não informado";
   };
@@ -92,6 +95,21 @@ const AdminRegistrationsPage = () => {
       capSaoSebastiao: "Capela São Sebastião",
     };
     return options[locate as keyof typeof options] || locate || "Não informado";
+  };
+
+  const formatSchooling = (schooling: string): string => {
+    const options = {
+      fundamental_incompleto: "Ensino Fundamental Incompleto",
+      fundamental_completo: "Ensino Fundamental Completo",
+      medio_incompleto: "Ensino Médio Incompleto",
+      medio_completo: "Ensino Médio Completo",
+      superior_incompleto: "Ensino Superior Incompleto",
+      superior_completo: "Ensino Superior Completo",
+      pos_graduacao: "Pós-graduação",
+      mestrado: "Mestrado",
+      doutorado: "Doutorado",
+    };
+    return options[schooling as keyof typeof options] || "Não informado";
   };
 
   const formatDateOfBirth = (date: string): string => {
@@ -392,7 +410,7 @@ const AdminRegistrationsPage = () => {
                       Escolaridade
                     </h4>
                     <p className="text-gray-800">
-                      {selectedRegistration.schooling || "Não informado"}
+                      {formatSchooling(selectedRegistration.schooling)}
                     </p>
                   </div>
                 )}
@@ -598,10 +616,10 @@ const AdminRegistrationsPage = () => {
                       generateCatequesePDF(selectedRegistration, filename);
                       break;
                     case "crismaJovem":
-                      generatePDF(selectedRegistration, filename);
+                      generateCrismaJovemPDF(selectedRegistration, filename);
                       break;
                     case "crismaAdulto":
-                      generatePDF(selectedRegistration, filename);
+                      generateCrismaAdultoPDF(selectedRegistration, filename);
                       break;
                     case "batismo":
                       generateBatismPDF(selectedRegistration, filename);

@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import { formatBirthDate } from './dateUtils';
 
-export const generatePDF = (registration: any, filename: string) => {
+export const generateCrismaJovemPDF = (registration: any, filename: string) => {
   const doc = new jsPDF('p', 'mm', 'a4');
 
   // Configurações do documento
@@ -43,9 +43,6 @@ export const generatePDF = (registration: any, filename: string) => {
     medio_completo: 'Ensino Médio Completo',
     superior_incompleto: 'Ensino Superior Incompleto',
     superior_completo: 'Ensino Superior Completo',
-    pos_graduacao: 'Pós-graduação',
-    mestrado: 'Mestrado',
-    doutorado: 'Doutorado',
   };
 
   const maritalStatusMap: Record<string, string> = {
@@ -53,6 +50,11 @@ export const generatePDF = (registration: any, filename: string) => {
     moraJunto: 'Mora junto',
     solteiro: 'Solteiro(a)',
   };
+
+  const specialNeedsMap: Record<string, string> = {
+    sim: "Sim",
+    nao: "Não"
+  }
 
   const timeMap: Record<string, string> = {
     sab_9h30: "Sábado, 9h30 - 11h00",
@@ -116,16 +118,10 @@ export const generatePDF = (registration: any, filename: string) => {
     registration.firstEucharist === "sim" ? "Sim" : "Não"
   );
 
-  // Campo "Possui necessidade especial?"
-  const specialNeedsValue = registration.specialNeeds || "Não informado";
-  const splitSpecialNeeds = doc.splitTextToSize(specialNeedsValue, 170); // Quebra automática
-  doc.setFont("helvetica", "bold");
-  doc.text("Possui necessidade especial?:", margin, y);
-  doc.setFont("helvetica", "normal");
-  splitSpecialNeeds.forEach((line, index) => {
-    doc.text(line, margin + 52, y + index * 7); // Adiciona linha por linha
-  });
-  y += 7 * splitSpecialNeeds.length; // Ajusta y com base no número de linhas
+  addField (
+    "Necessidade especial",
+    specialNeedsMap[registration.specialNeeds] || "Não informado"
+  );
 
   addField(
     "Estado Civil",

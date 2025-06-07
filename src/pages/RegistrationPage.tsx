@@ -14,7 +14,7 @@ import { addDizimista, addRegistration } from "../firebase/firestore";
 import sacramentos from "../assets/sacramentos.webp";
 import { PiHandsPrayingBold } from "react-icons/pi";
 import BatismoForm from "../components/BatsimoForm";
-import { CrismaJovemForm } from "../components/CrismaForm";
+import { CrismaJovemForm } from "../components/CrismaJovemForm";
 
 import { CatequeseForm } from "../components/CatequeseForm";
 import { CrismaAdultoForm } from "../components/CrismaAdultoForm";
