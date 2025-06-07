@@ -69,9 +69,10 @@ const AboutPage = () => {
             >
               <video
                 src={video}
-                controls
                 autoPlay
+                controls
                 loop
+                playsInline
                 className="w-full h-60 sm:h-80 md:h-96 object-cover rounded-lg"
               />
             </motion.div>
