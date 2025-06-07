@@ -7,26 +7,31 @@ export const generateBatismPDF = (formData: any, filename: string) => {
   let y = 30;
 
   // Helper melhorado para evitar erro de fuso horário
-  const formatDate = (date: string | Date): string => {
-    if (!date) return "Data inválida";
+  const formatDate = (date: any): string => {
+  let parsedDate: Date;
 
-    let parsedDate: Date;
+  if (date instanceof Date) {
+    parsedDate = date;
+  } else if (typeof date === "string") {
+    parsedDate = new Date(date);
+  } else if (typeof date === "number") {
+    parsedDate = new Date(date * 1000); // timestamp em segundos
+  } else if (date && typeof date === "object" && "seconds" in date) {
+    parsedDate = new Date(date.seconds * 1000); // Firebase Timestamp-like
+  } else {
+    return "Data inválida";
+  }
 
-    if (typeof date === 'string') {
-      const [year, month, day] = date.split('-').map(Number);
-      if (year && month && day) {
-        parsedDate = new Date(year, month - 1, day); // Mês começa em 0
-      } else {
-        parsedDate = new Date(date);
-      }
-    } else {
-      parsedDate = date;
-    }
+  if (!(parsedDate instanceof Date) || isNaN(parsedDate.getTime())) {
+    return "Data inválida";
+  }
 
-    if (isNaN(parsedDate.getTime())) return "Data inválida";
+  const day = String(parsedDate.getDate()).padStart(2, "0");
+  const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+  const year = parsedDate.getFullYear();
 
-    return parsedDate.toLocaleDateString('pt-BR'); // Formato brasileiro
-  };
+  return `${day}/${month}/${year}`;
+};
 
   const addField = (label: string, value: string) => {
     doc.setFont("helvetica", "bold");
@@ -69,13 +74,13 @@ export const generateBatismPDF = (formData: any, filename: string) => {
   addField("Data da Reunião", formatDate(formData.meetingDate));
   addField("Observações", formData.observations || "Não informado");
 
-  // Data da inscrição
-  y += 15;
-  const today = new Date().toLocaleDateString('pt-BR');
-  doc.setFont("helvetica", "bold");
-  doc.text("Data da Inscrição:", pageWidth - margin - 60, y);
-  doc.setFont("helvetica", "normal");
-  doc.text(today, pageWidth - margin - 10, y, { align: "right" });
+// Data da inscrição
+y += 15;
+const dataInscricao = formatDate(formData.createdAt);
+doc.setFont("helvetica", "bold");
+doc.text("Data da Inscrição:", pageWidth - margin - 50, y);
+doc.setFont("helvetica", "normal");
+doc.text(dataInscricao, pageWidth - margin, y, { align: "right" });
 
   // Rodapé
   y = 280;

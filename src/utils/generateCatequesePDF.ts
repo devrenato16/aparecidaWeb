@@ -8,11 +8,31 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
   let y = 30;
 
   // Helpers
-  const formatDate = (date: string | Date) => {
-    if (!date) return "Data inválida";
-    const d = new Date(date);
-    return isNaN(d.getTime()) ? "Data inválida" : d.toLocaleDateString('pt-BR');
-  };
+  const formatDate = (date: any): string => {
+  let parsedDate: Date;
+
+  if (date instanceof Date) {
+    parsedDate = date;
+  } else if (typeof date === "string") {
+    parsedDate = new Date(date);
+  } else if (typeof date === "number") {
+    parsedDate = new Date(date * 1000); // timestamp em segundos
+  } else if (date && typeof date === "object" && "seconds" in date) {
+    parsedDate = new Date(date.seconds * 1000); // Firebase Timestamp-like
+  } else {
+    return "Data inválida";
+  }
+
+  if (!(parsedDate instanceof Date) || isNaN(parsedDate.getTime())) {
+    return "Data inválida";
+  }
+
+  const day = String(parsedDate.getDate()).padStart(2, "0");
+  const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+  const year = parsedDate.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
 
   const timeMap: Record<string, string> = {
       matriz_7h30: "Matriz de Aparecida, 7h30 - 9h00",
@@ -97,12 +117,13 @@ export const generateCatequesePDF = (formData: any, filename: string) => {
   });
 
   // Data da inscrição
-  y += 15;
-  const today = new Date().toLocaleDateString('pt-BR');
-  doc.setFont("helvetica", "bold");
-  doc.text("Danta da Incrição:", pageWidth - margin - 50, y);
-  doc.setFont("helvetica", "normal");
-  doc.text(today, pageWidth - margin, y, {align:"right"});
+y += 15;
+const dataInscricao = formatDate(formData.createdAt);
+
+doc.setFont("helvetica", "bold");
+doc.text("Data da Inscrição:", pageWidth - margin - 50, y);
+doc.setFont("helvetica", "normal");
+doc.text(dataInscricao, pageWidth - margin, y, { align: "right" });
 
   // Rodapé
   y = 280;

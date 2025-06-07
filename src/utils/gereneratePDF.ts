@@ -10,16 +10,31 @@ export const generatePDF = (registration: any, filename: string) => {
   let y = 30; // Posição inicial vertical
 
   // Função auxiliar para formatar data
-  const formatDate = (date: Date | { seconds: number } | string) => {
-    if (!date) return 'Data inválida';
-    if (typeof date === 'string') {
-      const d = new Date(date);
-      return isNaN(d.getTime()) ? 'Data inválida' : d.toLocaleDateString('pt-BR');
-    }
-    if (date instanceof Date) return date.toLocaleDateString('pt-BR');
-    return new Date(date.seconds * 1000).toLocaleDateString('pt-BR');
-  };
+  const formatDate = (date: any): string => {
+  let parsedDate: Date;
 
+  if (date instanceof Date) {
+    parsedDate = date;
+  } else if (typeof date === "string") {
+    parsedDate = new Date(date);
+  } else if (typeof date === "number") {
+    parsedDate = new Date(date * 1000); // timestamp em segundos
+  } else if (date && typeof date === "object" && "seconds" in date) {
+    parsedDate = new Date(date.seconds * 1000); // Firebase Timestamp-like
+  } else {
+    return "Data inválida";
+  }
+
+  if (!(parsedDate instanceof Date) || isNaN(parsedDate.getTime())) {
+    return "Data inválida";
+  }
+
+  const day = String(parsedDate.getDate()).padStart(2, "0");
+  const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+  const year = parsedDate.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
   // Mapeamentos
   const schoolingMap: Record<string, string> = {
     fundamental_incompleto: 'Ensino Fundamental Incompleto',
@@ -146,12 +161,13 @@ export const generatePDF = (registration: any, filename: string) => {
 
 
   // Data da Inscrição
-  y += 5;
-  const today = new Date().toLocaleDateString('pt-BR');
-  doc.setFont("helvetica", "bold");
-  doc.text("Data da Incrição:", pageWidth - margin - 50, y);
-  doc.setFont("helvetica", "normal");
-  doc.text(today, pageWidth - margin, y, {align:"right"});
+y += 15;
+const dataInscricao = formatDate(registration.createdAt);
+
+doc.setFont("helvetica", "bold");
+doc.text("Data da Inscrição:", pageWidth - margin - 50, y);
+doc.setFont("helvetica", "normal");
+doc.text(dataInscricao, pageWidth - margin, y, { align: "right" });
 
   // Rodapé
   y = 280;

@@ -7,34 +7,27 @@ export const generateDizimistasPDF = (formData: any, filename: string) => {
   const margin = 20;
   let y = 30;
 
- const formatDate = (date: string | Date): string => {
+const formatDate = (date: any): string => {
   let parsedDate: Date;
 
   if (date instanceof Date) {
     parsedDate = date;
   } else if (typeof date === "string") {
-    // Tenta converter string para Date
-    const dateParts = date.split(/[-T]/); // Separa por "-" ou "T"
-    if (dateParts.length >= 3) {
-      const year = parseInt(dateParts[0], 10);
-      const month = parseInt(dateParts[1], 10) - 1; // meses começam em 0
-      const day = parseInt(dateParts[2], 10);
-      parsedDate = new Date(year, month, day);
-    } else {
-      parsedDate = new Date(date);
-    }
+    parsedDate = new Date(date);
+  } else if (typeof date === "number") {
+    parsedDate = new Date(date * 1000); // timestamp em segundos
+  } else if (date && typeof date === "object" && "seconds" in date) {
+    parsedDate = new Date(date.seconds * 1000); // Firebase Timestamp-like
   } else {
     return "Data inválida";
   }
 
-  // Valida se é uma data válida
   if (!(parsedDate instanceof Date) || isNaN(parsedDate.getTime())) {
     return "Data inválida";
   }
 
-  // Formata como dd/mm/yyyy
   const day = String(parsedDate.getDate()).padStart(2, "0");
-  const month = String(parsedDate.getMonth() + 1).padStart(2, "0"); // getMonth() retorna 0-11
+  const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
   const year = parsedDate.getFullYear();
 
   return `${day}/${month}/${year}`;
@@ -96,13 +89,14 @@ export const generateDizimistasPDF = (formData: any, filename: string) => {
     y += 7;
   });
 
+ 
   // Data da inscrição
-  y += 15;
-  const today = new Date().toLocaleDateString('pt-BR');
-  doc.setFont("helvetica", "bold");
-  doc.text("Danta da Incrição:", pageWidth - margin - 50, y);
-  doc.setFont("helvetica", "normal");
-  doc.text(today, pageWidth - margin, y, {align:"right"});
+y += 15;
+const dataInscricao = formatDate(formData.createdAt);
+doc.setFont("helvetica", "bold");
+doc.text("Data da Inscrição:", pageWidth - margin - 50, y);
+doc.setFont("helvetica", "normal");
+doc.text(dataInscricao, pageWidth - margin, y, { align: "right" });
 
   // Rodapé
   y = 280;
