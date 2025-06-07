@@ -72,7 +72,7 @@ const AboutPage = () => {
                 controls
                 autoPlay
                 loop
-                className="w-full h-96 object-cover"
+                className="w-full h-60 sm:h-80 md:h-96 object-cover rounded-lg"
               />
             </motion.div>
           </div>
