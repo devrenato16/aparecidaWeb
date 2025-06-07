@@ -157,26 +157,29 @@ const AdminDizimistasPage = () => {
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Nome
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Telefone
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Comunidade
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Data Cadastro
-                      </th>
-                      <th className="px-6 py-3 text-right text-xs font-semibold text-primary-800 uppercase tracking-wider">
-                        Ações
-                      </th>
-                    </tr>
+                    {filteredDizimistas.map((dizimistas) => (
+                      <tr key={dizimistas.id} className="hover: bg-gray-50">
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Nome
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Telefone
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Comunidade
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Data Cadastro
+                        </th>
+                        <th className="px-6 py-3 text-right text-xs font-semibold text-primary-800 uppercase tracking-wider">
+                          Ações
+                        </th>
+                      </tr>
+                    ))}
                   </thead>
+
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredDizimistas.map((dizimista) => (
+                    {dizimistas.map((dizimista) => (
                       <tr key={dizimista.id} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-semibold text-gray-900">
@@ -184,10 +187,14 @@ const AdminDizimistasPage = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-primary-800">{dizimista.phone}</div>
+                          <div className="text-sm text-primary-800">
+                            {dizimista.phone}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-primary-800">{dizimista.community}</div>
+                          <div className="text-sm text-primary-800">
+                            {dizimista.community}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-primary-800">
                           {formatDate(dizimista.createdAt)}
