@@ -404,16 +404,28 @@ const AdminRegistrationsPage = () => {
                     </p>
                   </div>
                 )}
-                {selectedRegistration.formType !== "batismo" && (
+                {selectedRegistration.formType !== "batismo" &&
+                  selectedRegistration.formType !== "catecismo" && (
+                    <div>
+                      <h4 className="text-sm font-semibold text-primary-800 mb-1">
+                        Escolaridade
+                      </h4>
+                      <p className="text-gray-800">
+                        {formatSchooling(selectedRegistration.schooling)}
+                      </p>
+                    </div>
+                  )}
+                {selectedRegistration.formType === "catecismo" && (
                   <div>
                     <h4 className="text-sm font-semibold text-primary-800 mb-1">
-                      Escolaridade
+                      Série Escolar
                     </h4>
                     <p className="text-gray-800">
-                      {formatSchooling(selectedRegistration.schooling)}
+                      {selectedRegistration.schooling || "Não informado"}
                     </p>
                   </div>
                 )}
+
                 {selectedRegistration.formType !== "catecismo" &&
                   selectedRegistration.formType !== "batismo" && (
                     <div>
