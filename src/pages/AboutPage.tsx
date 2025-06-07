@@ -7,6 +7,7 @@ import basilica from "../assets/basilica.webp";
 import altar from "../assets/altar.webp";
 import Location from "../components/LocationSection";
 import video from "../assets/video.mp4"
+import VideoPlayer from "../components/VideoPlayer";
 
 const AboutPage = () => {
   return (
@@ -67,14 +68,7 @@ const AboutPage = () => {
               viewport={{ once: true }}
               className="rounded-lg overflow-hidden shadow-elevation-2"
             >
-              <video
-                src={video}
-                autoPlay
-                controls
-                loop
-                playsInline
-                className="w-full h-60 sm:h-80 md:h-96 object-cover rounded-lg"
-              />
+              <VideoPlayer src={video} />
             </motion.div>
           </div>
         </div>
