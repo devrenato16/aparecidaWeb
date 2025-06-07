@@ -179,7 +179,7 @@ export const CatequeseForm = ({
           <span className="font-bold inline-block w-full sm:max-w-md p-1 rounded">
             {motherName || ""}
           </span>
-          , a observar e motivar a participação do meu filho (a) nos ENCONTROS
+          , me comprometo a observar e motivar a participação do meu filho (a) nos ENCONTROS
           DE FORMAÇÕES DA CATEQUESE, NECESSÁRIOS PARA O MESMO(A) RECEBER O
           SACRAMENTO DA PRIMEIRA EUCARISTIA, e estou consciente que, faltando a
           esses COMPROMISSOS, NÃO poderá receber o SACRAMENTO.

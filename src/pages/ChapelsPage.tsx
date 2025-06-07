@@ -58,8 +58,7 @@ const ChapelsPage = () => {
 
       <section className="section">
         <div className="container-custom">
-          <SectionTitle title="Missas Semanais" center />
-
+          <SectionTitle title="Missas" center />
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
