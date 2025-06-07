@@ -36,7 +36,7 @@ export function formatBirthDate(dateString: string): string {
   return date.toLocaleDateString('pt-BR');
 }
 
-// src/utils/dateUtils.ts
+// Filtro dizimistas por data
 export function parseDate(value: any): Date | null {
   if (!value) return null;
 
